@@ -3,7 +3,7 @@
     "name": "codereborn",
     "builds": [
         {
-            "src": "api/main.py",
+            "src": "api-entry.py",
             "use": "@vercel/python"
         },
         {
@@ -17,7 +17,7 @@
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "api/main.py"
+            "dest": "api-entry.py"
         },
         {
             "src": "/assets/(.*)",
