@@ -121,9 +121,13 @@ def run_healing_agent(repo_url: str, branch_name: str, run_id: str):
         logger.error(f"Agent run failed: {e}")
         _write_failure(repo_url, branch_name, run_id, str(e))
 
+import threading
+_write_lock = threading.Lock()
+
 def _write_results(state: AgentState):
     """Writes current AgentState to results.json for dashboard consumption."""
-    status_mapped = state.ci_status
+    with _write_lock:
+        status_mapped = state.ci_status
     if status_mapped == "SUCCESS":
         status_mapped = "RESOLVED"
     elif status_mapped == "RUNNING":

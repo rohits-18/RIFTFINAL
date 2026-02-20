@@ -115,6 +115,7 @@ class TestRunnerAgent:
         json_report_path = self.PYTEST_JSON_FILE
         cmd = [
             sys.executable, "-m", "pytest",
+            "-n", "auto", # Parallel execution via pytest-xdist
             "--tb=short", "--no-header", "-q",
             "--json-report",
             f"--json-report-file={json_report_path}",

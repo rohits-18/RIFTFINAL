@@ -294,24 +294,28 @@ class FailureClassifierAgent:
         except Exception:
             return []
 
+        if self.state.fallback_triggered:
+            return []
+
         proactive_failures: List[Failure] = []
-        # Only scan non-test source files, limit to 1 for speed
         if source_files is None:
             source_files = [f for f in self.state.python_files if f not in self.state.test_files]
-        scan_files = [f for f in source_files if f not in self.state.test_files][:1]
-
-        for fp in scan_files:
+        
+        # Scan up to 4 non-test source files in parallel for better coverage/speed balance
+        scan_files = [f for f in source_files if f not in self.state.test_files][:4]
+        
+        from concurrent.futures import ThreadPoolExecutor
+        
+        def scan_file(fp):
             try:
-                content = Path(fp).read_text(encoding="utf-8")
-                # Make sure rel_path works even if fp is already absolute
+                content = Path(fp).read_text(encoding="utf-8", errors="replace")
                 rel_path = os.path.relpath(fp, self.repo_path)
-                
                 lang_label = language.capitalize() if isinstance(language, str) else str(language)
                 
                 prompt = f"""Analyze this {lang_label} file for OBVIOUS runtime or logic bugs.
 File: {rel_path}
 Content:
-{content}
+{content[:15000]} 
 
 Respond in JSON format:
 {{
@@ -325,10 +329,9 @@ Respond in JSON format:
   ]
 }}
 If no bugs found, return {{"bugs": []}}. 
-ONLY return valid JSON. Do not include markdown or explanations.
+ONLY return valid JSON.
 """
                 resp = llm.generate(prompt)
-                # Extract JSON
                 json_str = resp.strip()
                 if "```json" in json_str:
                     json_str = json_str.split("```json")[1].split("```")[0].strip()
@@ -336,8 +339,9 @@ ONLY return valid JSON. Do not include markdown or explanations.
                     json_str = json_str.split("```")[1].split("```")[0].strip()
                 
                 data = json.loads(json_str)
+                results = []
                 for bug in data.get("bugs", []):
-                    proactive_failures.append(Failure(
+                    results.append(Failure(
                         failure_type=bug.get("type", "LOGIC"),
                         severity=bug.get("severity", "MEDIUM"),
                         file_path=fp,
@@ -345,8 +349,15 @@ ONLY return valid JSON. Do not include markdown or explanations.
                         message=bug.get("message", "Logic bug found by proactive scan"),
                         raw_trace=f"Proactive LLM Scan: {bug.get('message')}"
                     ))
+                return results
             except Exception as e:
                 logger.debug(f"[FailureClassifierAgent] Proactive scan failed for {fp}: {e}")
+                return []
+
+        with ThreadPoolExecutor(max_workers=min(len(scan_files), 4)) as executor:
+            futures = [executor.submit(scan_file, fp) for fp in scan_files]
+            for future in futures:
+                proactive_failures.extend(future.result())
                 
         return proactive_failures
 
