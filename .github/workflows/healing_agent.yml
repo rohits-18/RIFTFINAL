@@ -25,15 +25,37 @@ jobs:
     steps:
       - name: Checkout CodeReborn
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          cache: 'pip' # Enable pip caching
 
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
+
+      - name: Signal Start to Dashboard
+        run: |
+          mkdir -p backend/results
+          echo '{
+            "repo_url": "${{ github.event.inputs.repo_url }}",
+            "branch_name": "${{ github.event.inputs.branch_name }}",
+            "run_id": "${{ github.event.inputs.run_id }}",
+            "ci_status": "RUNNING",
+            "ci_timeline": ["Cloud Core provisioned", "Starting LangGraph agent mission..."],
+            "scoring": {"base_score": 100, "speed_factor": 0, "fix_efficiency": 0, "regression_penalty": 0, "final_ci_score": 0},
+            "start_time": '$(date +%s)',
+            "elapsed_seconds": 0
+          }' > backend/results/${{ github.event.inputs.run_id }}.json
+          git config --global user.name "AI-Healing-Agent"
+          git config --global user.email "agent@codereborn.ai"
+          git add backend/results/
+          git commit -m "status: mission ${{ github.event.inputs.run_id }} starting [skip ci]"
+          git push origin main
 
       - name: Run Healing Agent
         env:
@@ -43,16 +65,22 @@ jobs:
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           PYTHONPATH: .
         run: |
+          # Create a workspace and clone the target repo there
+          mkdir -p workspace
+          # Use the provided token for the target repo clone (might be a different owner)
+          git clone "${{ github.event.inputs.repo_url }}" "./workspace/${{ github.event.inputs.run_id }}"
+          
           python main.py \
+            --repo-path "./workspace/${{ github.event.inputs.run_id }}" \
             --repo-url "${{ github.event.inputs.repo_url }}" \
             --branch "${{ github.event.inputs.branch_name }}" \
-            --run-id "${{ github.event.inputs.run_id }}" \
-            --repo-path "./workspace/${{ github.event.inputs.run_id }}"
+            --run-id "${{ github.event.inputs.run_id }}"
 
-      - name: Commit and Push Results
+      - name: Final Commit and Push
+        if: always()
         run: |
           git config --global user.name "AI-Healing-Agent"
           git config --global user.email "agent@codereborn.ai"
           git add backend/results/
-          git commit -m "chore: save healing results for ${{ github.event.inputs.run_id }} [skip ci]"
+          git commit -m "chore: final results for ${{ github.event.inputs.run_id }} [skip ci]" || echo "No changes"
           git push origin main

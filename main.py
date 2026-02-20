@@ -103,7 +103,6 @@ def main() -> int:
 
     # Run the pipeline
     from backend.orchestrator.graph import run_healing_pipeline
-    from backend.results.results_writer import ResultsWriter
 
     final_state = run_healing_pipeline(
         repo_path=str(repo_path),
@@ -120,17 +119,17 @@ def main() -> int:
         final_state = AgentState(**final_state)
 
     # Write results.json
-    writer = ResultsWriter(final_state)
-    output_path = writer.write()
+    from backend.orchestrator.main import _write_results
+    _write_results(final_state)
 
-    print(f"\n✅ Results written: {output_path}")
+    print(f"\n✅ Results written to backend/results/{run_id}.json")
     print(f"   CI Status : {final_state.ci_status}")
     print(f"   Failures  : {len(final_state.failures)}")
     print(f"   Fixes     : {len(final_state.fixes)}")
     if final_state.scoring:
         print(f"   Score     : {final_state.scoring.total_score:.2f}")
 
-    return 0 if final_state.ci_status in ("SUCCESS", "PARTIAL") else 1
+    return 0 if final_state.ci_status in ("SUCCESS", "PARTIAL", "RESOLVED") else 1
 
 
 if __name__ == "__main__":

@@ -224,17 +224,18 @@ export const useStore = create<AppState>()(
                         }
                     } catch (err: any) {
                         const { currentResult } = get();
-                        const isRecent = currentResult && (Date.now() / 1000 - (currentResult.start_time || 0) < 300); // 5 mins
+                        const isRecent = currentResult && (Date.now() / 1000 - (currentResult.start_time || 0) < 600); // Wait 10 mins for GHA
 
-                        // If 404 but recent, keep polling (it might be GHA provisioning)
+                        // If 404 but recent, keep polling (GHA is provisioning)
                         if (err.response?.status === 404 && isRecent) {
-                            return; // Silent wait
+                            console.log("[v1.10] Waiting for Cloud results...");
+                            return;
                         }
-
-                        if (err.response?.status === 404 || err.response?.status === 400) {
+                        // Real error or timeout
+                        else if (err.response?.status === 404 || err.response?.status === 400) {
                             get().stopPolling();
                             set({
-                                error: "Run results were lost or inaccessible. If using GHA, it might have timed out. Ensure your GITHUB_TOKEN is valid.",
+                                error: "Mission data lost or inaccessible. The Cloud Engine may have timed out or your GITHUB_TOKEN is invalid.",
                                 isLoading: false
                             });
                         }

@@ -242,6 +242,8 @@ async def get_results(run_id: str):
             try:
                 repo_name = os.environ.get("GITHUB_REPOSITORY") or \
                             (f"{os.environ.get('VERCEL_GIT_REPO_OWNER')}/{os.environ.get('VERCEL_GIT_REPO_SLUG')}" if os.environ.get('VERCEL_GIT_REPO_OWNER') else "rohits-18/RIFTFINAL")
+                
+                logger.info(f"Fetching result {run_id} from GitHub: {repo_name} (branch: main)")
                 github_url = f"https://raw.githubusercontent.com/{repo_name}/main/backend/results/{run_id}.json"
                 logger.info(f"Checking GitHub for result: {github_url}")
                 resp = requests.get(github_url)
