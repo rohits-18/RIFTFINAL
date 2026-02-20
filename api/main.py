@@ -202,7 +202,7 @@ async def get_results(run_id: str, request: Request):
                 token = os.environ.get("GITHUB_TOKEN")
                 headers = {"Accept": "application/vnd.github.v3.raw", "Cache-Control": "no-cache"}
                 if token:
-                    headers["Authorization"] = f"token {token}"
+                    headers["Authorization"] = f"Bearer {token}"
                     
                 for branch in ["main", "master"]:
                     github_url = f"https://api.github.com/repos/{repo_name}/contents/backend/results/{run_id}.json?ref={branch}"
