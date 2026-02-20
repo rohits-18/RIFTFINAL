@@ -14,10 +14,51 @@ from fastapi import FastAPI, BackgroundTasks, HTTPException, Request
 from fastapi.responses import JSONResponse
 import logging
 import traceback
+import requests
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+def trigger_github_workflow(repo_url: str, branch_name: str, run_id: str, team_name: str, leader_name: str):
+    """Triggers the GitHub Action workflow in the CodeReborn repo itself to run the agent."""
+    token = os.environ.get("GITHUB_TOKEN")
+    if not token:
+        logger.error("GITHUB_TOKEN not found in environment.")
+        return False
+        
+    # Try to find the repo name from env (Vercel provides this if connected to GitHub)
+    repo_owner_name = os.environ.get("GITHUB_REPOSITORY", "rohits-18/RIFTFINAL")
+    
+    url = f"https://api.github.com/repos/{repo_owner_name}/actions/workflows/healing_agent.yml/dispatches"
+    
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    
+    data = {
+        "ref": "main",
+        "inputs": {
+            "repo_url": repo_url,
+            "branch_name": branch_name,
+            "run_id": run_id,
+            "team_name": team_name,
+            "leader_name": leader_name
+        }
+    }
+    
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        if response.status_code == 204:
+            logger.info(f"Triggered GHA for run_id={run_id}")
+            return True
+        else:
+            logger.error(f"Failed to trigger GHA: {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        logger.error(f"Error triggering GHA: {e}")
+        return False
 
 app = FastAPI(title="Autonomous CI/CD Healing Core API")
 
@@ -65,7 +106,7 @@ async def root():
 
     return {
         "status": status_msg,
-        "api_version": "1.0.0",
+        "api_version": "1.6.0 PRO LIVE (GHA)",
         "git_available": bool(git_path),
         "git_executable": os.environ.get("GIT_PYTHON_GIT_EXECUTABLE"),
         "results_dir": str(RESULTS_DIR),
@@ -165,19 +206,26 @@ async def run_agent(request: RunAgentRequest, background_tasks: BackgroundTasks)
              logger.error(f"Failed to write initial state: {write_err}")
              raise HTTPException(status_code=500, detail=f"Filesystem Error: Could not save initial state to {RESULTS_DIR}")
 
-        # 3. Trigger Background Task
-        # Check if environment is correctly setup for cloning (token)
-        if not os.environ.get("GITHUB_TOKEN"):
-             logger.warning("GITHUB_TOKEN missing in environment! Push operations will fail.")
-
-        from backend.orchestrator.main import run_healing_agent
-        background_tasks.add_task(run_healing_agent, request.repo_url, expected_branch, run_id)
+        # 3. Trigger Core Execution
+        # PRO LIVE Logic: Prefer GHA for headless persistence if token is set
+        triggered_gha = False
+        if os.environ.get("GITHUB_TOKEN"):
+             triggered_gha = trigger_github_workflow(
+                 request.repo_url, expected_branch, run_id, 
+                 request.team_name, request.leader_name
+             )
+        
+        if not triggered_gha:
+            logger.info("Falling back to local background execution.")
+            from backend.orchestrator.main import run_healing_agent
+            background_tasks.add_task(run_healing_agent, request.repo_url, expected_branch, run_id)
         
         return {
-            "message": "Agent started",
+            "message": "Agent started (GHA)" if triggered_gha else "Agent started (Local)",
             "run_id": run_id,
             "branch_name": expected_branch,
-            "status": "QUEUED"
+            "status": "QUEUED",
+            "execution_mode": "GHA" if triggered_gha else "LOCAL"
         }
     except HTTPException as he:
         raise he
@@ -193,12 +241,17 @@ async def get_results(run_id: str):
         result_file_path = os.path.join(RESULTS_DIR, f"{run_id}.json")
 
         if not os.path.exists(result_file_path):
-            global_path = os.path.join(RESULTS_DIR, "results.json")
-            if os.path.exists(global_path):
-                with open(global_path, 'r') as f:
-                    data = json.load(f)
-                    if data.get("run_id") == run_id:
-                        return data
+            # PRO LIVE Fallback: Check GitHub Repo Directly (if agent ran via GHA)
+            try:
+                repo_name = "rohits-18/RIFTFINAL"
+                github_url = f"https://raw.githubusercontent.com/{repo_name}/main/backend/results/{run_id}.json"
+                logger.info(f"Checking GitHub for result: {github_url}")
+                resp = requests.get(github_url)
+                if resp.status_code == 200:
+                    return resp.json()
+            except Exception as gh_err:
+                logger.debug(f"GitHub fallback failed: {gh_err}")
+
             raise HTTPException(status_code=404, detail="Results not found yet. Agent might still be starting.")
 
         with open(result_file_path, 'r') as f:

@@ -1,0 +1,58 @@
+name: Autonomous CI/CD Healing Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_url:
+        description: 'GitHub Repository URL to heal'
+        required: true
+      branch_name:
+        description: 'Branch name for AI fixes'
+        required: true
+      run_id:
+        description: 'Unique Run ID'
+        required: true
+      team_name:
+        description: 'Team Name'
+        required: true
+      leader_name:
+        description: 'Leader Name'
+        required: true
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout CodeReborn
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Healing Agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+          PYTHONPATH: .
+        run: |
+          python main.py \
+            --repo-url "${{ github.event.inputs.repo_url }}" \
+            --branch "${{ github.event.inputs.branch_name }}" \
+            --run-id "${{ github.event.inputs.run_id }}" \
+            --repo-path "./workspace/${{ github.event.inputs.run_id }}"
+
+      - name: Commit and Push Results
+        run: |
+          git config --global user.name "AI-Healing-Agent"
+          git config --global user.email "agent@codereborn.ai"
+          git add backend/results/
+          git commit -m "chore: save healing results for ${{ github.event.inputs.run_id }} [skip ci]"
+          git push origin main
