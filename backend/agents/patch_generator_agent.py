@@ -101,22 +101,34 @@ class PatchGeneratorAgent:
         t0 = time.time()
         logger.info(f"[PatchGeneratorAgent] Generating patches for {len(self.state.failures)} failures...")
 
-        patches: List[Patch] = []
-        processed_files = set()  # One patch per file per iteration
-
+        # 1. Group failures by file to avoid overlapping patches in same file
+        file_to_failures = {}
         for failure in self.state.failures:
             target_file = failure.root_cause_file or failure.file_path
-            if target_file in processed_files or target_file == "unknown":
+            if target_file == "unknown":
                 continue
+            if target_file not in file_to_failures:
+                file_to_failures[target_file] = failure # Use the first failure found for this file
 
+        patches: List[Patch] = []
+        
+        # 2. Parallel Processing
+        from concurrent.futures import ThreadPoolExecutor
+        max_workers = min(len(file_to_failures), 4) # cap at 4 parallel LLM calls to prevent rate limits
+        
+        def process_file(target_file, failure):
             if self._use_fallback:
-                patch = self._fallback_patch(failure, target_file)
+                return self._fallback_patch(failure, target_file)
             else:
-                patch = self._generate_patch(failure, target_file)
+                return self._generate_patch(failure, target_file)
 
-            if patch:
-                patches.append(patch)
-                processed_files.add(target_file)
+        if file_to_failures:
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                futures = [executor.submit(process_file, f, fail) for f, fail in file_to_failures.items()]
+                for future in futures:
+                    patch = future.result()
+                    if patch:
+                        patches.append(patch)
 
         self.state.patches = patches
         elapsed = time.time() - t0
@@ -124,11 +136,11 @@ class PatchGeneratorAgent:
         self.state.timeline.append(CITimelineEvent(
             iteration=self.state.iteration,
             event_type="PATCH_GENERATION",
-            description=f"Generated {len(patches)} patches",
+            description=f"Generated {len(patches)} patches (Parallel Core)",
             duration_seconds=elapsed,
         ))
 
-        logger.success(f"[PatchGeneratorAgent] {len(patches)} patches generated in {elapsed:.2f}s")
+        logger.success(f"[PatchGeneratorAgent] {len(patches)} patches generated in {elapsed:.2f}s (workers={max_workers})")
         return self.state
 
     # ─────────────────────────────────────────

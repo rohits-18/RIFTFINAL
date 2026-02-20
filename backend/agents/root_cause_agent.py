@@ -73,18 +73,31 @@ class RootCauseAgent:
             if f.severity in ("CRITICAL", "HIGH", "MEDIUM")
         ]
 
-        # Deduplicate: only analyze each unique file once to avoid 20x LLM calls for same file
-        analyzed_files: set = set()
-        for failure in priority_failures:
-            target_file = failure.file_path
-            if use_llm and target_file not in analyzed_files:
-                analyzed_files.add(target_file)
-                ok = self._analyze_with_llm(failure)
-                if not ok:
-                    # LLM failed (rate limited) — switch all remaining to static
-                    use_llm = False
-                    logger.warning("[RootCauseAgent] LLM rate-limited — falling back to static for all remaining")
-            # Always do static to ensure root_cause_file is set
+        # Deduplicate and parallelize
+        from concurrent.futures import ThreadPoolExecutor
+        
+        # 1. Group failures by file for unique analysis
+        file_to_failure = {}
+        for f in priority_failures:
+            if f.file_path not in file_to_failure:
+                file_to_failure[f.file_path] = f
+
+        if use_llm and file_to_failure:
+            max_workers = min(len(file_to_failure), 4)
+            logger.info(f"[RootCauseAgent] Launching parallel LLM analysis with {max_workers} workers...")
+            
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                futures = {executor.submit(self._analyze_with_llm, f): f for f in file_to_failure.values()}
+                for future in futures:
+                    try:
+                        ok = future.result()
+                        if not ok:
+                            use_llm = False # Global signal to stop LLM if rate-limited
+                    except Exception as e:
+                        logger.error(f"[RootCauseAgent] Worker failed: {e}")
+
+        # Always ensure static coverage for all failures
+        for failure in self.state.failures:
             self._analyze_static(failure)
 
         elapsed = time.time() - t0

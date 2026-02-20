@@ -23,9 +23,10 @@ jobs:
   heal:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout CodeReborn
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
@@ -36,7 +37,9 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install --prefer-binary -r requirements.txt
+          pip install pytest pytest-json-report requests gitpython
 
       - name: Signal Start to Dashboard
         run: |

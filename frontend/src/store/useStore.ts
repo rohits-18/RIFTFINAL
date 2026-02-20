@@ -60,6 +60,7 @@ interface AppState {
     runHistory: RunHistoryItem[];
     currentResult: RunResult | null;
     pollingIntervalId: any;
+    isPolling: boolean;
 
     setRepoUrl: (url: string) => void;
     setTeamName: (name: string) => void;
@@ -90,6 +91,7 @@ export const useStore = create<AppState>()(
             runHistory: [],
             currentResult: null,
             pollingIntervalId: null,
+            isPolling: false,
 
             setRepoUrl: (url) => set({ repoUrl: url }),
 
@@ -207,32 +209,42 @@ export const useStore = create<AppState>()(
                 const { runId } = get();
                 if (!runId) return;
 
-                const id = window.setInterval(async () => {
-                    const { runId: currentId } = get();
-                    if (!currentId) { get().stopPolling(); return; }
+                set({ isPolling: true }); // Set isPolling to true when starting
 
-                    get().fetchRuns();
+                const poll = async () => {
+                    const { runId, currentResult, isPolling } = get();
+                    if (!runId || !isPolling) return;
 
                     try {
-                        const response = await axios.get(`${API_URL}/results/${currentId}?_t=${Date.now()}`);
-                        const result = response.data;
-                        set({ currentResult: result });
+                        const response = await axios.get(`${API_URL}/results/${runId}`); // Changed API_BASE to API_URL for consistency
+                        const data = response.data;
+                        set({ currentResult: data, isLoading: false });
 
-                        if (FINAL_STATUSES.includes(result.ci_status)) {
-                            set({ isLoading: false });
+                        // Adapt polling freq based on state
+                        let nextInterval = 2000;
+                        if (data.ci_status === 'RESOLVED' || data.ci_status === 'FAILED' || data.ci_status === 'PARTIAL') { // Added PARTIAL to final statuses
                             get().stopPolling();
+                            return;
+                        } else if (data.ci_status === 'QUEUED' || data.ci_status === 'PENDING') {
+                            nextInterval = 3000;
+                        } else {
+                            nextInterval = 1500; // Fast when running
+                        }
+
+                        if (get().isPolling) {
+                            (window as any).pollTimeout = setTimeout(poll, nextInterval);
                         }
                     } catch (err: any) {
                         const { currentResult } = get();
                         const isRecent = currentResult && (Date.now() / 1000 - (currentResult.start_time || 0) < 600); // Wait 10 mins for GHA
 
-                        // If 404 but recent, keep polling (GHA is provisioning)
                         if (err.response?.status === 404 && isRecent) {
-                            console.log("[v1.10] Waiting for Cloud results...");
+                            console.log("[v1.11] Waiting for Cloud results...");
+                            (window as any).pollTimeout = setTimeout(poll, 3000);
                             return;
                         }
-                        // Real error or timeout
-                        else if (err.response?.status === 404 || err.response?.status === 400) {
+
+                        if (err.response?.status === 404 || err.response?.status === 400) {
                             get().stopPolling();
                             set({
                                 error: "Mission data lost or inaccessible. The Cloud Engine may have timed out or your GITHUB_TOKEN is invalid.",
@@ -240,9 +252,9 @@ export const useStore = create<AppState>()(
                             });
                         }
                     }
-                }, 2500);
+                };
 
-                set({ pollingIntervalId: id });
+                poll();
             },
 
             clearHistory: () => {
