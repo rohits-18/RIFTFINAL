@@ -222,8 +222,14 @@ export const useStore = create<AppState>()(
                             set({ isLoading: false });
                             get().stopPolling();
                         }
-                    } catch (_) {
-                        // Transient — keep polling
+                    } catch (err: any) {
+                        if (err.response?.status === 404 || err.response?.status === 400) {
+                            get().stopPolling();
+                            set({
+                                error: "Run results were lost or inaccessible (Serverless timeout/statelessness). Please deploy the backend to Railway/Render for persistence.",
+                                isLoading: false
+                            });
+                        }
                     }
                 }, 2500);
 
