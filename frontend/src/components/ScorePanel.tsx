@@ -20,11 +20,14 @@ const ScorePanel = () => {
         const isFinal = ['RESOLVED', 'FAILED', 'PARTIAL'].includes(currentResult.ci_status);
         if (timerRef.current) clearInterval(timerRef.current);
         if (!isFinal && currentResult.start_time) {
-            const tick = () => setElapsedLive(Math.round(Date.now() / 1000 - currentResult.start_time!));
+            const tick = () => {
+                const startTime = currentResult.start_time || (Date.now() / 1000);
+                setElapsedLive(Math.max(0, Math.round(Date.now() / 1000 - startTime)));
+            };
             tick();
             timerRef.current = setInterval(tick, 1000);
         } else {
-            setElapsedLive(currentResult.elapsed_seconds ?? 0);
+            setElapsedLive(Number(currentResult.elapsed_seconds) || 0);
         }
         return () => { if (timerRef.current) clearInterval(timerRef.current); };
     }, [currentResult?.run_id, currentResult?.ci_status]);
@@ -40,10 +43,10 @@ const ScorePanel = () => {
 
     // Score bar percentages (cap at 100)
     const scoreMax = 120;
-    const baseBar = Math.min(100, (scoring.base_score / scoreMax) * 100);
-    const speedBar = Math.min(100, ((scoring.speed_factor || 0) / 20) * 100);
-    const penaltyBar = Math.min(100, ((scoring.regression_penalty || 0) / 20) * 100);
-    const finalBar = Math.min(100, (scoring.final_ci_score / scoreMax) * 100);
+    const baseBar = Math.min(100, ((scoring?.base_score || 0) / scoreMax) * 100);
+    const speedBar = Math.min(100, ((scoring?.speed_factor || 0) / 20) * 100);
+    const penaltyBar = Math.min(100, ((scoring?.regression_penalty || 0) / 20) * 100);
+    const finalBar = Math.min(100, ((scoring?.final_ci_score || 0) / scoreMax) * 100);
 
     const statusColor = isResolved
         ? 'text-emerald-400 bg-emerald-900/20 border-emerald-500/50'
@@ -99,15 +102,15 @@ const ScorePanel = () => {
             <div className="px-6 py-4 grid grid-cols-3 gap-4 border-b border-slate-700/50">
                 <div className="text-center">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Final Score</p>
-                    <p className="text-4xl font-black text-blue-400 leading-none">{scoring.final_ci_score.toFixed(1)}</p>
+                    <p className="text-4xl font-black text-blue-400 leading-none">{(scoring?.final_ci_score ?? 0).toFixed(1)}</p>
                 </div>
                 <div className="text-center">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Bugs Fixed</p>
-                    <p className="text-4xl font-black text-emerald-400 leading-none">{total_fixes}</p>
+                    <p className="text-4xl font-black text-emerald-400 leading-none">{total_fixes ?? 0}</p>
                 </div>
                 <div className="text-center">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Failures</p>
-                    <p className="text-4xl font-black text-red-400 leading-none">{total_failures}</p>
+                    <p className="text-4xl font-black text-red-400 leading-none">{total_failures ?? 0}</p>
                 </div>
             </div>
 
@@ -118,13 +121,13 @@ const ScorePanel = () => {
                 </h3>
 
                 <div className="space-y-2.5">
-                    <ScoreBar label="Base Score" value={scoring.base_score} bar={baseBar} color="from-slate-400 to-slate-300" textColor="text-slate-300" prefix="" />
-                    <ScoreBar label="Speed Bonus" value={scoring.speed_factor} bar={speedBar} color="from-emerald-600 to-emerald-400" textColor="text-emerald-300" prefix="+" />
-                    <ScoreBar label="Regression Penalty" value={scoring.regression_penalty} bar={penaltyBar} color="from-red-700 to-red-500" textColor="text-red-300" prefix="-" />
+                    <ScoreBar label="Base Score" value={scoring?.base_score ?? 0} bar={baseBar} color="from-slate-400 to-slate-300" textColor="text-slate-300" prefix="" />
+                    <ScoreBar label="Speed Bonus" value={scoring?.speed_factor ?? 0} bar={speedBar} color="from-emerald-600 to-emerald-400" textColor="text-emerald-300" prefix="+" />
+                    <ScoreBar label="Regression Penalty" value={scoring?.regression_penalty ?? 0} bar={penaltyBar} color="from-red-700 to-red-500" textColor="text-red-300" prefix="-" />
                     <div className="h-px bg-slate-700/60 my-1" />
                     <div className="flex items-center justify-between">
                         <span className="text-[11px] font-black uppercase tracking-widest text-slate-300">Final CI Score</span>
-                        <span className="text-xl font-black text-blue-400">{scoring.final_ci_score.toFixed(1)}</span>
+                        <span className="text-xl font-black text-blue-400">{(scoring?.final_ci_score ?? 0).toFixed(1)}</span>
                     </div>
                     <div className="w-full bg-slate-700/40 rounded-full h-3 overflow-hidden">
                         <div

@@ -136,14 +136,12 @@ def _write_results(state: AgentState):
         "leader_name": leader_name
     }
 
-    results_dir = os.path.join(APP_DIR, "backend", "results")
-    result_file = os.path.join(results_dir, f"{state.run_id}.json")
+    result_file = os.path.join(RESULTS_DIR, f"{state.run_id}.json")
     with open(result_file, 'w') as f:
         json.dump(result_data, f, indent=2)
 
 def _write_failure(repo_url: str, branch_name: str, run_id: str, error_msg: str):
-    results_dir = os.path.join(APP_DIR, "backend", "results")
-    result_file = os.path.join(results_dir, f"{run_id}.json")
+    result_file = os.path.join(RESULTS_DIR, f"{run_id}.json")
     failure_data = {
         "repo_url": repo_url,
         "branch_name": branch_name,
