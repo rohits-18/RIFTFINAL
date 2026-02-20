@@ -16,6 +16,17 @@ const Timeline = () => {
     const isResolved = currentResult.ci_status === 'RESOLVED';
     const isPartial = currentResult.ci_status === 'PARTIAL';
 
+    const cleanEvent = (msg: string) => {
+        if (msg.includes("Bad git executable")) {
+            return "Critical Error: System failed to find 'git' on the server. Deployment environment restriction detected.";
+        }
+        if (msg.includes("Failed to talk to backend at /api")) {
+            return "Connection Error: The backend API did not respond. Check your internet or server health.";
+        }
+        // General cleanup: remove long stack traces or technically verbose phrases
+        return msg.split("Example: export GIT_PYTHON_REFRESH=quiet")[0].trim();
+    };
+
     return (
         <div className="bg-gradient-to-br from-slate-800 to-slate-800/80 rounded-2xl border border-slate-700/60 overflow-hidden shadow-2xl mt-6">
             <div className="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between">
@@ -33,9 +44,11 @@ const Timeline = () => {
             <div className="px-6 py-4">
                 <div className="relative border-l-2 border-slate-700 ml-2 space-y-4">
                     {events.map((event, idx) => {
+                        const eventStr = typeof event === 'string' ? event : JSON.stringify(event);
+                        const cleanedEvent = cleanEvent(eventStr);
                         const isLast = idx === events.length - 1;
-                        const isErr = typeof event === 'string' && (event.toLowerCase().includes('error') || event.toLowerCase().includes('fail'));
-                        const isOk = typeof event === 'string' && (event.toLowerCase().includes('pass') || event.toLowerCase().includes('success') || event.toLowerCase().includes('resolv'));
+                        const isErr = cleanedEvent.toLowerCase().includes('error') || cleanedEvent.toLowerCase().includes('fail');
+                        const isOk = cleanedEvent.toLowerCase().includes('pass') || cleanedEvent.toLowerCase().includes('success') || cleanedEvent.toLowerCase().includes('resolv');
 
                         return (
                             <div key={idx} className="relative pl-8">
@@ -51,7 +64,7 @@ const Timeline = () => {
                                             [{String(idx + 1).padStart(2, '0')}]
                                         </span>
                                         <p className={`text-xs leading-relaxed ${isErr ? 'text-red-300' : isOk ? 'text-emerald-300' : 'text-slate-300'}`}>
-                                            {typeof event === 'string' ? event : JSON.stringify(event)}
+                                            {cleanedEvent}
                                         </p>
                                         {isLast && !isFinal && (
                                             <Loader2 className="w-3 h-3 text-blue-400 animate-spin flex-shrink-0 ml-auto" />

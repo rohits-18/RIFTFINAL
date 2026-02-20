@@ -29,11 +29,18 @@ def run_healing_agent(repo_url: str, branch_name: str, run_id: str):
 
         from backend.orchestrator.graph import run_healing_pipeline
     except Exception as e:
-        logger.error(f"Environmental Error: Required dependencies (git/graph) not available: {e}")
+        error_msg = str(e)
+        logger.error(f"Environmental Error: Required dependencies (git/graph) not available: {error_msg}")
+        
+        # NEAT ERROR CLEANUP: Strip technical GitPython noise
+        if "Bad git executable" in error_msg:
+             error_msg = "Critical Error: Engine failed to find the 'git' binary on this server."
+        
         # Build a more helpful instruction for the user
-        advise = "Vercel does not support Git. Please deploy the backend to Railway, Render, or a custom VPS." if os.environ.get("VERCEL") else "Ensure Git is installed and in your PATH."
+        advise = "Vercel serverless functions do not support the 'git' binary. Please ensure GITHUB_TOKEN is set to trigger Cloud Healing (GHA)." if os.environ.get("VERCEL") else "Ensure Git is installed on your server and added to your system PATH."
+        
         from backend.orchestrator.main import _write_failure
-        _write_failure(repo_url, branch_name, run_id, f"Engine Error: {e}. {advise}")
+        _write_failure(repo_url, branch_name, run_id, f"{error_msg} {advise}")
         return
 
     logger.info(f"Starting agent run {run_id} for {repo_url} on {branch_name}")
