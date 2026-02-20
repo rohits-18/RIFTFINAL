@@ -30,7 +30,7 @@ function App() {
                         </div>
                         <div>
                             <h1 className="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500">
-                                Autonomous CI/CD Healing Core <span className="text-[10px] opacity-70 font-mono ml-2 border border-blue-500/30 px-1.5 py-0.5 rounded text-blue-400">PRO LIVE (v1.10)</span>
+                                Autonomous CI/CD Healing Core <span className="text-[10px] opacity-70 font-mono ml-2 border border-blue-500/30 px-1.5 py-0.5 rounded text-blue-400">PRO LIVE (v1.11)</span>
                                 <span className="text-[8px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1 ml-2 rounded uppercase tracking-tighter font-black">GHA Core</span>
                             </h1>
                             <div className="flex items-center gap-3 text-[10px] font-bold text-slate-600 tracking-widest uppercase">

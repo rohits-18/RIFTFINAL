@@ -99,7 +99,7 @@ async def root():
 
     return {
         "status": status_msg,
-        "api_version": "1.10.0 PRO LIVE (Final)",
+        "api_version": "1.11.0 PRO LIVE (Final Hardening)",
         "git_available": bool(git_path),
         "git_executable": os.environ.get("GIT_PYTHON_GIT_EXECUTABLE"),
         "results_dir": str(RESULTS_DIR),
@@ -243,12 +243,13 @@ async def get_results(run_id: str):
                 repo_name = os.environ.get("GITHUB_REPOSITORY") or \
                             (f"{os.environ.get('VERCEL_GIT_REPO_OWNER')}/{os.environ.get('VERCEL_GIT_REPO_SLUG')}" if os.environ.get('VERCEL_GIT_REPO_OWNER') else "rohits-18/RIFTFINAL")
                 
-                logger.info(f"Fetching result {run_id} from GitHub: {repo_name} (branch: main)")
-                github_url = f"https://raw.githubusercontent.com/{repo_name}/main/backend/results/{run_id}.json"
-                logger.info(f"Checking GitHub for result: {github_url}")
-                resp = requests.get(github_url)
-                if resp.status_code == 200:
-                    return resp.json()
+                # Check BOTH main and master branches for reliability
+                for branch in ["main", "master"]:
+                    github_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/backend/results/{run_id}.json"
+                    logger.info(f"Checking GitHub {branch} for result: {github_url}")
+                    resp = requests.get(github_url)
+                    if resp.status_code == 200:
+                        return resp.json()
             except Exception as gh_err:
                 logger.debug(f"GitHub fallback failed: {gh_err}")
 
