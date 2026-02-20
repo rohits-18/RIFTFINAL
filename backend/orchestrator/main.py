@@ -3,8 +3,8 @@ import shutil
 import logging
 import json
 import time
-from git import Repo
-from backend.orchestrator.graph import run_healing_pipeline
+import json
+import time
 from backend.utils.models import AgentState
 from backend.utils.paths import RESULTS_DIR, WORKSPACE_DIR
 
@@ -17,6 +17,16 @@ def run_healing_agent(repo_url: str, branch_name: str, run_id: str):
     2. Clones repository
     3. Triggers the LangGraph healing pipeline with progressive updates
     """
+    try:
+        from git import Repo
+        from backend.orchestrator.graph import run_healing_pipeline
+    except ImportError as e:
+        logger.error(f"Environmental Error: Required dependencies (git/graph) not available: {e}")
+        # Import internally to avoid another crash if it failed at top level
+        from backend.orchestrator.main import _write_failure
+        _write_failure(repo_url, branch_name, run_id, f"Engine Error: Backend environment is missing 'git' or pipeline dependencies. (Error: {e})")
+        return
+
     logger.info(f"Starting agent run {run_id} for {repo_url} on {branch_name}")
     
     results_dir = RESULTS_DIR

@@ -8,7 +8,6 @@ from uuid import uuid4
 from fastapi import FastAPI, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from api.models import RunResult, RunAgentRequest
-from backend.orchestrator.main import run_healing_agent 
 from backend.utils.paths import RESULTS_DIR
 
 from fastapi import FastAPI, BackgroundTasks, HTTPException, Request
@@ -159,6 +158,7 @@ async def run_agent(request: RunAgentRequest, background_tasks: BackgroundTasks)
         if not os.environ.get("GITHUB_TOKEN"):
              logger.warning("GITHUB_TOKEN missing in environment! Push operations will fail.")
 
+        from backend.orchestrator.main import run_healing_agent
         background_tasks.add_task(run_healing_agent, request.repo_url, expected_branch, run_id)
         
         return {

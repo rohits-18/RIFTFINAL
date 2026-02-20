@@ -30,7 +30,7 @@ function App() {
                         </div>
                         <div>
                             <h1 className="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500">
-                                Autonomous CI/CD Healing Core <span className="text-[10px] opacity-50 font-mono ml-2">v1.2</span>
+                                Autonomous CI/CD Healing Core <span className="text-[10px] opacity-50 font-mono ml-2">v1.3</span>
                             </h1>
                             <div className="flex items-center gap-3 text-[10px] font-bold text-slate-600 tracking-widest uppercase">
                                 <span className="flex items-center gap-1"><ShieldCheck className="w-2.5 h-2.5 text-emerald-500" /> Multi-Agent</span>
