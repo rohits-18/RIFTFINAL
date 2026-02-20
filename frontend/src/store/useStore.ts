@@ -236,15 +236,20 @@ export const useStore = create<AppState>()(
                         }
                     } catch (err: any) {
                         const { currentResult } = get();
-                        const isRecent = currentResult && (Date.now() / 1000 - (currentResult.start_time || 0) < 600); // Wait 10 mins for GHA
+                        // If no result yet, assume it's very recent
+                        const startTime = currentResult?.start_time || (Date.now() / 1000);
+                        const isRecent = (Date.now() / 1000 - startTime < 600); // 10 min window
 
+                        // If 404 but within the 10min window, keep polling (HEALHY SIGN: GHA is booting)
                         if (err.response?.status === 404 && isRecent) {
-                            console.log("[v1.11] Waiting for Cloud results...");
-                            (window as any).pollTimeout = setTimeout(poll, 3000);
+                            console.log(`[v1.11] ⏳ Cloud Core is booting (Healthy 404). Waiting for heartbeat...`);
+                            (window as any).pollTimeout = setTimeout(poll, 4000);
                             return;
                         }
 
+                        // Only show error if it's a non-404 error OR we've timed out (10 mins)
                         if (err.response?.status === 404 || err.response?.status === 400) {
+                            console.error("[v1.11] Cloud core failed to report in 10 minutes. Stopping.");
                             get().stopPolling();
                             set({
                                 error: "Mission data lost or inaccessible. The Cloud Engine may have timed out or your GITHUB_TOKEN is invalid.",
