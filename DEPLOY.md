@@ -66,7 +66,23 @@ Check the output `results.json` for the `llm_usage` block to confirm the executi
 }
 ```
 
-## 🛡 Safety Mechanisms
-*   **Syntax Masking Protection**: Validates syntax fixes even if they reveal new logic bugs (progress > perfection).
-*   **Atomic file writes**: `ValidationAgent` writes to `.tmp` first, then moves.
-*   **Strict JSON Contract**: `ResultsWriter` enforces exact schema matching.
+## 🌍 Production Hosting
+The Intelligence Core consists of two parts:
+
+1.  **Frontend (React)**: Best hosted on **Vercel** or **Netlify**.
+2.  **Backend (Python API)**: **MUST** be hosted on a platform that supports a real Linux environment (e.g., **Railway**, **Render**, **AWS**, or **DigitalOcean**).
+
+### Why not Vercel for the Backend?
+Vercel Functions are **Serverless**. They do not include the `git` binary or the `pytest` environment needed for the agent to:
+*   Clone repositories.
+*   Run test suites.
+*   Execute shell commands.
+
+### 🚀 Recommended Hosting: Railway
+Railway automatically detects the `Procfile` and installs all dependencies (including `git`).
+1.  Connect your GitHub repo to Railway.
+2.  Set your environment variables (`GEMINI_API_KEY`, `GITHUB_TOKEN`).
+3.  The agent will have full access to the filesystem and git tools.
+
+## 📊 Verifying Determinism (results.json)
+...

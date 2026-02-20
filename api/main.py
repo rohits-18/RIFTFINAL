@@ -53,13 +53,24 @@ logger.info(f"Using results directory: {RESULTS_DIR}")
 
 @app.get("/")
 async def root():
+    import shutil
+    git_path = shutil.which("git")
     is_writable = os.access(RESULTS_DIR, os.W_OK)
+    
+    status_msg = "AI Core Online"
+    warning = None
+    if not git_path:
+        status_msg = "AI Core DEGRADED (Git Missing)"
+        warning = "Environment is missing the 'git' binary. Deploy to a platform that supports Git (e.g. Railway, Render, or Docker) for full agentic functionality."
+
     return {
-        "status": "AI Core Online",
+        "status": status_msg,
         "version": "1.0.0",
+        "git_available": bool(git_path),
         "results_dir": str(RESULTS_DIR),
         "is_writable": is_writable,
-        "environment": "Vercel" if os.environ.get("VERCEL") else "Regular"
+        "environment": "Vercel" if os.environ.get("VERCEL") else "Regular",
+        "warning": warning
     }
 
 @app.get("/runs")
