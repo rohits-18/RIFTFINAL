@@ -26,4 +26,4 @@ def factorial(n: int) -> int:
 def square_root(x: float) -> float:
     if x < 0:
         raise ValueError("Cannot take sqrt of negative number")
-    __import__('math').sqrt(x)   # BUG: math not imported
+    return math.sqrt(x)   # BUG: math not imported

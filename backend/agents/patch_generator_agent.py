@@ -177,11 +177,7 @@ Line    : {failure.line_number}
 {code_for_llm}
 ```
 
-Output MUST follow this EXACT format:
-FIX_DESCRIPTION: <A very short, precise explanation of the fix. e.g. "remove the import statement" or "add the colon at the correct position">
-```language
-<complete fixed file>
-```
+Output ONLY the complete fixed file inside a markdown code block.
 Do NOT duplicate chunks of code. Return ONLY the single, valid, complete file content.
 """
 
@@ -196,16 +192,19 @@ Do NOT duplicate chunks of code. Return ONLY the single, valid, complete file co
                 seed=settings.RANDOM_SEED,
             )
 
+            # Extract code from any markdown block (```python, ```javascript, etc.)
             import re as _re
+            # robust regex to capture content inside fences, handling optional language tag
             code_matches = _re.findall(r'```(?:[\w\+\-#]+)?\s*(.*?)```', result, _re.DOTALL)
             
             if code_matches:
+                # Use the LAST block, as chatty models often quote the buggy code first
                 patched_code = code_matches[-1].strip()
             else:
+                # If no blocks, assume raw output is the code (risky but handles 'just code' responses)
                 patched_code = result.strip()
 
-            desc_match = _re.search(r'FIX_DESCRIPTION:\s*(.*)', result)
-            reasoning = desc_match.group(1).strip() if desc_match else "applied code fix"
+            reasoning = "LLM-generated fix (polyglot mode)"
             patch_type_str = "logic_correction"
 
             # Validate patch (syntax check only for Python currently)

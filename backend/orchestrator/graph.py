@@ -85,7 +85,7 @@ def should_continue(state: AgentState) -> Literal["retry", "score"]:
     # stop — there's nothing to verify the remaining static-analysis warnings against.
     if getattr(state, "pytest_exit_code", None) == 5 and len(state.fixes) > 0:
         logger.success(
-            f"[Orchestrator] No test suite + {len(state.fixes)} fix(es) applied — declaring PASSED ✅"
+            f"[Orchestrator] No test suite + {len(state.fixes)} fix(es) applied — declaring RESOLVED ✅"
         )
         return "score"
 

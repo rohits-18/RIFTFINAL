@@ -1,0 +1,68 @@
+/Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/.venv/lib/python3.14/site-packages/langchain_core/_api/deprecation.py:25: UserWarning: Core Pydantic V1 functionality isn't compatible with Python 3.14 or greater.
+  from pydantic.v1.fields import FieldInfo as FieldInfoV1
+[32m2026-02-19 15:57:45.023[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.utils.logger[0m:[36msetup_logger[0m:[36m41[0m — [1mLogger initialized for run_id=final-llm-v11[0m
+[32m2026-02-19 15:57:45.023[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m205[0m — [1m======================================================================[0m
+[32m2026-02-19 15:57:45.023[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m206[0m — [1m🚀 CI/CD Healing Intelligence Core — STARTING[0m
+[32m2026-02-19 15:57:45.023[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m207[0m — [1m   run_id     : final-llm-v11[0m
+[32m2026-02-19 15:57:45.024[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m208[0m — [1m   repo_path  : /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo[0m
+[32m2026-02-19 15:57:45.024[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m209[0m — [1m   branch     : ai-healing[0m
+[32m2026-02-19 15:57:45.024[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m210[0m — [1m======================================================================[0m
+[32m2026-02-19 15:57:45.033[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.cicd_feedback_agent[0m:[36mrun[0m:[36m68[0m — [1m[CICDFeedbackAgent] No CI logs provided, skipping[0m
+[32m2026-02-19 15:57:45.034[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.repo_analyzer_agent[0m:[36mrun[0m:[36m45[0m — [1m[RepoAnalyzerAgent] Scanning repo: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo[0m
+[32m2026-02-19 15:57:45.038[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.repo_analyzer_agent[0m:[36mrun[0m:[36m73[0m — [32m[1m[RepoAnalyzerAgent] Done in 0.00s — 5 py, 2 tests, 0 configs[0m
+[32m2026-02-19 15:57:45.039[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.test_runner_agent[0m:[36mrun[0m:[36m59[0m — [1m[TestRunnerAgent] Starting test execution...[0m
+[32m2026-02-19 15:57:45.627[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.test_runner_agent[0m:[36mrun[0m:[36m82[0m — [1m[TestRunnerAgent] Done in 0.59s | exit=1 pass=15 fail=2[0m
+[32m2026-02-19 15:57:45.628[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.failure_classifier_agent[0m:[36mrun[0m:[36m94[0m — [1m[FailureClassifierAgent] Classifying failures...[0m
+[32m2026-02-19 15:57:45.631[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.failure_classifier_agent[0m:[36mrun[0m:[36m143[0m — [32m[1m[FailureClassifierAgent] 4 failures classified in 0.00s[0m
+[32m2026-02-19 15:57:45.631[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36mrun[0m:[36m56[0m — [1m[RootCauseAgent] Analyzing 4 failures...[0m
+[32m2026-02-19 15:57:45.694[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.utils.llm_client[0m:[36m__init__[0m:[36m113[0m — [1m[LLMClient] ⚡ Using Groq — model=llama-3.1-8b-instant (FREE, ~500 tok/sec)[0m
+[32m2026-02-19 15:57:46.935[0m | [34m[1mDEBUG   [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36m_analyze_with_llm[0m:[36m127[0m — [34m[1m[RootCauseAgent] ✅ LLM root cause for 84ce43fe: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo/src/string_utils.py:11[0m
+[32m2026-02-19 15:57:47.391[0m | [34m[1mDEBUG   [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36m_analyze_with_llm[0m:[36m127[0m — [34m[1m[RootCauseAgent] ✅ LLM root cause for 5c41beb7: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo/src/string_utils.py:10[0m
+[32m2026-02-19 15:57:47.957[0m | [34m[1mDEBUG   [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36m_analyze_with_llm[0m:[36m127[0m — [34m[1m[RootCauseAgent] ✅ LLM root cause for 88fa4ca0: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo/src/string_utils.py:10[0m
+[32m2026-02-19 15:57:48.627[0m | [34m[1mDEBUG   [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36m_analyze_with_llm[0m:[36m127[0m — [34m[1m[RootCauseAgent] ✅ LLM root cause for de6efc60: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo/src/string_utils.py:5[0m
+[32m2026-02-19 15:57:48.629[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36mrun[0m:[36m85[0m — [32m[1m[RootCauseAgent] Done in 3.00s[0m
+[32m2026-02-19 15:57:48.632[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.patch_generator_agent[0m:[36mrun[0m:[36m93[0m — [1m[PatchGeneratorAgent] Generating patches for 4 failures...[0m
+[32m2026-02-19 15:57:49.096[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.patch_generator_agent[0m:[36m_generate_patch[0m:[36m222[0m — [1m[PatchGeneratorAgent] Patch 9cb8df4b for string_utils.py — 7 lines changed[0m
+[32m2026-02-19 15:57:49.097[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.patch_generator_agent[0m:[36mrun[0m:[36m122[0m — [32m[1m[PatchGeneratorAgent] 1 patches generated in 0.47s[0m
+[32m2026-02-19 15:57:49.099[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.validation_agent[0m:[36mrun[0m:[36m47[0m — [1m[ValidationAgent] Validating 1 patches...[0m
+[32m2026-02-19 15:57:50.143[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.validation_agent[0m:[36mrun[0m:[36m60[0m — [32m[1m[ValidationAgent] ✅ Patch 9cb8df4b ACCEPTED — fixed 4 tests[0m
+[32m2026-02-19 15:57:50.144[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.validation_agent[0m:[36mrun[0m:[36m87[0m — [1m[ValidationAgent] Done in 1.04s — 1/1 patches accepted[0m
+[32m2026-02-19 15:57:50.144[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.commit_optimizer_agent[0m:[36mrun[0m:[36m42[0m — [1m[CommitOptimizerAgent] Committing 1 fixes...[0m
+[32m2026-02-19 15:57:50.145[0m | [33m[1mWARNING [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.commit_optimizer_agent[0m:[36mrun[0m:[36m64[0m — [33m[1m[CommitOptimizerAgent] Not a git repo: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo. Skipping commits.[0m
+[32m2026-02-19 15:57:50.145[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mshould_continue[0m:[36m124[0m — [1m[Orchestrator] Retry 1/5 | remaining=3 | temp=0.150[0m
+[32m2026-02-19 15:57:50.145[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.test_runner_agent[0m:[36mrun[0m:[36m59[0m — [1m[TestRunnerAgent] Starting test execution...[0m
+[32m2026-02-19 15:57:50.648[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.test_runner_agent[0m:[36mrun[0m:[36m82[0m — [1m[TestRunnerAgent] Done in 0.50s | exit=0 pass=17 fail=0[0m
+[32m2026-02-19 15:57:50.649[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.failure_classifier_agent[0m:[36mrun[0m:[36m94[0m — [1m[FailureClassifierAgent] Classifying failures...[0m
+[32m2026-02-19 15:57:50.652[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.failure_classifier_agent[0m:[36mrun[0m:[36m143[0m — [32m[1m[FailureClassifierAgent] 0 failures classified in 0.00s[0m
+[32m2026-02-19 15:57:50.652[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36mrun[0m:[36m56[0m — [1m[RootCauseAgent] Analyzing 0 failures...[0m
+[32m2026-02-19 15:57:50.652[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.root_cause_agent[0m:[36mrun[0m:[36m85[0m — [32m[1m[RootCauseAgent] Done in 0.00s[0m
+[32m2026-02-19 15:57:50.652[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.patch_generator_agent[0m:[36mrun[0m:[36m93[0m — [1m[PatchGeneratorAgent] Generating patches for 0 failures...[0m
+[32m2026-02-19 15:57:50.653[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.patch_generator_agent[0m:[36mrun[0m:[36m122[0m — [32m[1m[PatchGeneratorAgent] 0 patches generated in 0.00s[0m
+[32m2026-02-19 15:57:50.653[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.validation_agent[0m:[36mrun[0m:[36m47[0m — [1m[ValidationAgent] Validating 0 patches...[0m
+[32m2026-02-19 15:57:50.653[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.validation_agent[0m:[36mrun[0m:[36m87[0m — [1m[ValidationAgent] Done in 0.00s — 0/0 patches accepted[0m
+[32m2026-02-19 15:57:50.654[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.commit_optimizer_agent[0m:[36mrun[0m:[36m42[0m — [1m[CommitOptimizerAgent] Committing 1 fixes...[0m
+[32m2026-02-19 15:57:50.654[0m | [33m[1mWARNING [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.commit_optimizer_agent[0m:[36mrun[0m:[36m64[0m — [33m[1m[CommitOptimizerAgent] Not a git repo: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo. Skipping commits.[0m
+[32m2026-02-19 15:57:50.654[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mshould_continue[0m:[36m107[0m — [32m[1m[Orchestrator] All failures resolved — converging ✅[0m
+[32m2026-02-19 15:57:50.654[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.scoring_agent[0m:[36mrun[0m:[36m39[0m — [1m[ScoringAgent] Computing final score...[0m
+[32m2026-02-19 15:57:50.654[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.agents.scoring_agent[0m:[36mrun[0m:[36m52[0m — [32m[1m[ScoringAgent] Score=115.00 | fixes=1 | efficiency=0.00 | regressions_penalty=0.0[0m
+[32m2026-02-19 15:57:50.655[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m233[0m — [1m======================================================================[0m
+[32m2026-02-19 15:57:50.655[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m239[0m — [1m🏁 Pipeline complete. Status: PENDING[0m
+[32m2026-02-19 15:57:50.655[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m241[0m — [1m   Score: 115.00[0m
+[32m2026-02-19 15:57:50.655[0m | [1mINFO    [0m | [36mrun=final-llm-v11[0m | [36mbackend.orchestrator.graph[0m:[36mrun_healing_pipeline[0m:[36m242[0m — [1m======================================================================[0m
+
+╔══════════════════════════════════════════════════════════════╗
+║     🧠 Autonomous CI/CD Healing Intelligence Core            ║
+║     Production Grade — LangGraph + GPT-4o                   ║
+╠══════════════════════════════════════════════════════════════╣
+║  run_id   : final-llm-v11                                     ║
+║  repo     : /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo║
+║  branch   : ai-healing                                        ║
+╚══════════════════════════════════════════════════════════════╝
+    
+
+✅ Results written: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/results/final-llm-v11/results.json
+   CI Status : PENDING
+   Failures  : 0
+   Fixes     : 1
+   Score     : 115.00
+[32m2026-02-19 15:57:50.656[0m | [32m[1mSUCCESS [0m | [36mrun=final-llm-v11[0m | [36mbackend.results.results_writer[0m:[36mwrite[0m:[36m42[0m — [32m[1m[ResultsWriter] results.json written: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/results/final-llm-v11/results.json[0m

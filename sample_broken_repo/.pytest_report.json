@@ -1,1 +1,601 @@
-{"created": 1771536870.3437326, "duration": 0.030166149139404297, "exitcode": 1, "root": "/repo", "environment": {}, "summary": {"passed": 16, "failed": 1, "total": 17, "collected": 17}, "collectors": [{"nodeid": "", "outcome": "passed", "result": [{"nodeid": ".", "type": "Dir"}]}, {"nodeid": "src", "outcome": "passed", "result": []}, {"nodeid": "tests/test_calculator.py::TestCalculator", "outcome": "passed", "result": [{"nodeid": "tests/test_calculator.py::TestCalculator::test_add", "type": "Function", "lineno": 15}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_subtract", "type": "Function", "lineno": 20}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_multiply", "type": "Function", "lineno": 24}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_divide_returns_float", "type": "Function", "lineno": 28}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_divide_by_zero", "type": "Function", "lineno": 33}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_zero", "type": "Function", "lineno": 37}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_positive", "type": "Function", "lineno": 40}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_negative", "type": "Function", "lineno": 44}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_square_root", "type": "Function", "lineno": 48}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_square_root_negative", "type": "Function", "lineno": 52}]}, {"nodeid": "tests/test_calculator.py", "outcome": "passed", "result": [{"nodeid": "tests/test_calculator.py::TestCalculator", "type": "Class"}]}, {"nodeid": "tests/test_string_utils.py::TestStringUtils", "outcome": "passed", "result": [{"nodeid": "tests/test_string_utils.py::TestStringUtils::test_reverse_string", "type": "Function", "lineno": 15}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_to_upper", "type": "Function", "lineno": 20}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_hello", "type": "Function", "lineno": 24}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_aeiou", "type": "Function", "lineno": 28}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_empty", "type": "Function", "lineno": 31}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_true", "type": "Function", "lineno": 34}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_false", "type": "Function", "lineno": 38}]}, {"nodeid": "tests/test_string_utils.py", "outcome": "passed", "result": [{"nodeid": "tests/test_string_utils.py::TestStringUtils", "type": "Class"}]}, {"nodeid": "tests", "outcome": "passed", "result": [{"nodeid": "tests/test_calculator.py", "type": "Module"}, {"nodeid": "tests/test_string_utils.py", "type": "Module"}]}, {"nodeid": ".", "outcome": "passed", "result": [{"nodeid": "src", "type": "Package"}, {"nodeid": "tests", "type": "Dir"}]}], "tests": [{"nodeid": "tests/test_calculator.py::TestCalculator::test_add", "lineno": 15, "outcome": "passed", "keywords": ["test_add", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 0.00012070800000074655, "outcome": "passed"}, "call": {"duration": 8.870799999982637e-05, "outcome": "passed"}, "teardown": {"duration": 0.00010170799999986713, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_subtract", "lineno": 20, "outcome": "passed", "keywords": ["test_subtract", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 7.845899999914252e-05, "outcome": "passed"}, "call": {"duration": 0.00014404099999953957, "outcome": "passed"}, "teardown": {"duration": 6.37500000006952e-05, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_multiply", "lineno": 24, "outcome": "passed", "keywords": ["test_multiply", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 4.6750000000095326e-05, "outcome": "passed"}, "call": {"duration": 5.7707999999934145e-05, "outcome": "passed"}, "teardown": {"duration": 4.504199999999514e-05, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_divide_returns_float", "lineno": 28, "outcome": "passed", "keywords": ["test_divide_returns_float", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 4.4041999999855364e-05, "outcome": "passed"}, "call": {"duration": 4.6208000000547145e-05, "outcome": "passed"}, "teardown": {"duration": 4.208300000030363e-05, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_divide_by_zero", "lineno": 33, "outcome": "passed", "keywords": ["test_divide_by_zero", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 4.108300000016385e-05, "outcome": "passed"}, "call": {"duration": 0.00013541599999999931, "outcome": "passed"}, "teardown": {"duration": 4.2791999999458596e-05, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_zero", "lineno": 37, "outcome": "passed", "keywords": ["test_factorial_zero", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 4.166699999963441e-05, "outcome": "passed"}, "call": {"duration": 6.770799999955557e-05, "outcome": "passed"}, "teardown": {"duration": 4.183300000004664e-05, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_positive", "lineno": 40, "outcome": "passed", "keywords": ["test_factorial_positive", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 4.404099999977262e-05, "outcome": "passed"}, "call": {"duration": 4.449999999955878e-05, "outcome": "passed"}, "teardown": {"duration": 3.879199999978766e-05, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_negative", "lineno": 44, "outcome": "passed", "keywords": ["test_factorial_negative", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 4.1500000000027626e-05, "outcome": "passed"}, "call": {"duration": 5.316599999982685e-05, "outcome": "passed"}, "teardown": {"duration": 4.091600000055706e-05, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_square_root", "lineno": 48, "outcome": "failed", "keywords": ["test_square_root", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 3.883300000051548e-05, "outcome": "passed"}, "call": {"duration": 0.0001697089999996848, "outcome": "failed", "crash": {"path": "/repo/tests/test_calculator.py", "lineno": 50, "message": "assert None == 3.0\n +  where None = square_root(9)"}, "traceback": [{"path": "tests/test_calculator.py", "lineno": 50, "message": "in test_square_root"}], "longrepr": "tests/test_calculator.py:50: in test_square_root\n    assert square_root(9) == 3.0\nE   assert None == 3.0\nE    +  where None = square_root(9)"}, "teardown": {"duration": 0.00011749999999999261, "outcome": "passed"}}, {"nodeid": "tests/test_calculator.py::TestCalculator::test_square_root_negative", "lineno": 52, "outcome": "passed", "keywords": ["test_square_root_negative", "TestCalculator", "test_calculator.py", "tests", "repo", ""], "setup": {"duration": 6.84589999995211e-05, "outcome": "passed"}, "call": {"duration": 7.054199999956268e-05, "outcome": "passed"}, "teardown": {"duration": 5.783299999961855e-05, "outcome": "passed"}}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_reverse_string", "lineno": 15, "outcome": "passed", "keywords": ["test_reverse_string", "TestStringUtils", "test_string_utils.py", "tests", "repo", ""], "setup": {"duration": 4.4584000000291724e-05, "outcome": "passed"}, "call": {"duration": 4.579099999979519e-05, "outcome": "passed"}, "teardown": {"duration": 3.8583000000258494e-05, "outcome": "passed"}}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_to_upper", "lineno": 20, "outcome": "passed", "keywords": ["test_to_upper", "TestStringUtils", "test_string_utils.py", "tests", "repo", ""], "setup": {"duration": 3.9124999999806676e-05, "outcome": "passed"}, "call": {"duration": 4.425000000018997e-05, "outcome": "passed"}, "teardown": {"duration": 3.983399999984982e-05, "outcome": "passed"}}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_hello", "lineno": 24, "outcome": "passed", "keywords": ["test_count_vowels_hello", "TestStringUtils", "test_string_utils.py", "tests", "repo", ""], "setup": {"duration": 6.370799999988463e-05, "outcome": "passed"}, "call": {"duration": 4.3291999999972575e-05, "outcome": "passed"}, "teardown": {"duration": 5.0667000000004236e-05, "outcome": "passed"}}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_aeiou", "lineno": 28, "outcome": "passed", "keywords": ["test_count_vowels_aeiou", "TestStringUtils", "test_string_utils.py", "tests", "repo", ""], "setup": {"duration": 3.795800000006011e-05, "outcome": "passed"}, "call": {"duration": 4.379200000048655e-05, "outcome": "passed"}, "teardown": {"duration": 3.7833000000375705e-05, "outcome": "passed"}}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_empty", "lineno": 31, "outcome": "passed", "keywords": ["test_count_vowels_empty", "TestStringUtils", "test_string_utils.py", "tests", "repo", ""], "setup": {"duration": 6.966699999999548e-05, "outcome": "passed"}, "call": {"duration": 6.862499999993332e-05, "outcome": "passed"}, "teardown": {"duration": 4.7499999999978115e-05, "outcome": "passed"}}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_true", "lineno": 34, "outcome": "passed", "keywords": ["test_is_palindrome_true", "TestStringUtils", "test_string_utils.py", "tests", "repo", ""], "setup": {"duration": 0.00010612500000029002, "outcome": "passed"}, "call": {"duration": 8.133300000068289e-05, "outcome": "passed"}, "teardown": {"duration": 5.0624999999193676e-05, "outcome": "passed"}}, {"nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_false", "lineno": 38, "outcome": "passed", "keywords": ["test_is_palindrome_false", "TestStringUtils", "test_string_utils.py", "tests", "repo", ""], "setup": {"duration": 4.28750000001088e-05, "outcome": "passed"}, "call": {"duration": 4.6166999999819325e-05, "outcome": "passed"}, "teardown": {"duration": 4.2999999999793204e-05, "outcome": "passed"}}]}
+{
+  "created": 1771499000.508874,
+  "duration": 0.013052940368652344,
+  "exitcode": 0,
+  "root": "/Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/sample_broken_repo",
+  "environment": {},
+  "summary": {
+    "passed": 17,
+    "total": 17,
+    "collected": 17
+  },
+  "collectors": [
+    {
+      "nodeid": "",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": ".",
+          "type": "Dir"
+        }
+      ]
+    },
+    {
+      "nodeid": "src",
+      "outcome": "passed",
+      "result": []
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_add",
+          "type": "Function",
+          "lineno": 15
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_subtract",
+          "type": "Function",
+          "lineno": 20
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_multiply",
+          "type": "Function",
+          "lineno": 24
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_divide_returns_float",
+          "type": "Function",
+          "lineno": 28
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_divide_by_zero",
+          "type": "Function",
+          "lineno": 33
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_zero",
+          "type": "Function",
+          "lineno": 37
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_positive",
+          "type": "Function",
+          "lineno": 40
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_negative",
+          "type": "Function",
+          "lineno": 44
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_square_root",
+          "type": "Function",
+          "lineno": 48
+        },
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator::test_square_root_negative",
+          "type": "Function",
+          "lineno": 52
+        }
+      ]
+    },
+    {
+      "nodeid": "tests/test_calculator.py",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": "tests/test_calculator.py::TestCalculator",
+          "type": "Class"
+        }
+      ]
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils::test_reverse_string",
+          "type": "Function",
+          "lineno": 15
+        },
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils::test_to_upper",
+          "type": "Function",
+          "lineno": 20
+        },
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_hello",
+          "type": "Function",
+          "lineno": 24
+        },
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_aeiou",
+          "type": "Function",
+          "lineno": 28
+        },
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_empty",
+          "type": "Function",
+          "lineno": 31
+        },
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_true",
+          "type": "Function",
+          "lineno": 34
+        },
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_false",
+          "type": "Function",
+          "lineno": 38
+        }
+      ]
+    },
+    {
+      "nodeid": "tests/test_string_utils.py",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": "tests/test_string_utils.py::TestStringUtils",
+          "type": "Class"
+        }
+      ]
+    },
+    {
+      "nodeid": "tests",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": "tests/test_calculator.py",
+          "type": "Module"
+        },
+        {
+          "nodeid": "tests/test_string_utils.py",
+          "type": "Module"
+        }
+      ]
+    },
+    {
+      "nodeid": ".",
+      "outcome": "passed",
+      "result": [
+        {
+          "nodeid": "src",
+          "type": "Package"
+        },
+        {
+          "nodeid": "tests",
+          "type": "Dir"
+        }
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_add",
+      "lineno": 15,
+      "outcome": "passed",
+      "keywords": [
+        "test_add",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 0.0001951669983100146,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 8.05830059107393e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 5.7541008573025465e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_subtract",
+      "lineno": 20,
+      "outcome": "passed",
+      "keywords": [
+        "test_subtract",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 6.324998685158789e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 6.112499977461994e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.6542001655325294e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_multiply",
+      "lineno": 24,
+      "outcome": "passed",
+      "keywords": [
+        "test_multiply",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 5.85000088904053e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.991698708385229e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.4208019971847534e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_divide_returns_float",
+      "lineno": 28,
+      "outcome": "passed",
+      "keywords": [
+        "test_divide_returns_float",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.820901085622609e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.5750017054378986e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.491698928177357e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_divide_by_zero",
+      "lineno": 33,
+      "outcome": "passed",
+      "keywords": [
+        "test_divide_by_zero",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.924999666400254e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 0.00012933299876749516,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.2458006646484137e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_zero",
+      "lineno": 37,
+      "outcome": "passed",
+      "keywords": [
+        "test_factorial_zero",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 5.108400364406407e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.370800499804318e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.1332998080179095e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_positive",
+      "lineno": 40,
+      "outcome": "passed",
+      "keywords": [
+        "test_factorial_positive",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.949999856762588e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.541701102629304e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 3.954098792746663e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_factorial_negative",
+      "lineno": 44,
+      "outcome": "passed",
+      "keywords": [
+        "test_factorial_negative",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.708298365585506e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 6.683400715701282e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.2791012674570084e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_square_root",
+      "lineno": 48,
+      "outcome": "passed",
+      "keywords": [
+        "test_square_root",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 5.116598913446069e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 6.04590168222785e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.2750005377456546e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_calculator.py::TestCalculator::test_square_root_negative",
+      "lineno": 52,
+      "outcome": "passed",
+      "keywords": [
+        "test_square_root_negative",
+        "TestCalculator",
+        "test_calculator.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.8792018787935376e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 6.15829776506871e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.270899808034301e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils::test_reverse_string",
+      "lineno": 15,
+      "outcome": "passed",
+      "keywords": [
+        "test_reverse_string",
+        "TestStringUtils",
+        "test_string_utils.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.883299698121846e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.412500468082726e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.0292012272402644e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils::test_to_upper",
+      "lineno": 20,
+      "outcome": "passed",
+      "keywords": [
+        "test_to_upper",
+        "TestStringUtils",
+        "test_string_utils.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 5.1624985644593835e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.937498644925654e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.095799522474408e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_hello",
+      "lineno": 24,
+      "outcome": "passed",
+      "keywords": [
+        "test_count_vowels_hello",
+        "TestStringUtils",
+        "test_string_utils.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.7375011490657926e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.2916002459824085e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.0749990148469806e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_aeiou",
+      "lineno": 28,
+      "outcome": "passed",
+      "keywords": [
+        "test_count_vowels_aeiou",
+        "TestStringUtils",
+        "test_string_utils.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.5958004193380475e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.1292008720338345e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 3.899997682310641e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils::test_count_vowels_empty",
+      "lineno": 31,
+      "outcome": "passed",
+      "keywords": [
+        "test_count_vowels_empty",
+        "TestStringUtils",
+        "test_string_utils.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.9583992222324014e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.366600817069411e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 3.908301005139947e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_true",
+      "lineno": 34,
+      "outcome": "passed",
+      "keywords": [
+        "test_is_palindrome_true",
+        "TestStringUtils",
+        "test_string_utils.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.5666005462408066e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.320797208696604e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 4.037498729303479e-05,
+        "outcome": "passed"
+      }
+    },
+    {
+      "nodeid": "tests/test_string_utils.py::TestStringUtils::test_is_palindrome_false",
+      "lineno": 38,
+      "outcome": "passed",
+      "keywords": [
+        "test_is_palindrome_false",
+        "TestStringUtils",
+        "test_string_utils.py",
+        "tests",
+        "sample_broken_repo",
+        ""
+      ],
+      "setup": {
+        "duration": 4.604100831784308e-05,
+        "outcome": "passed"
+      },
+      "call": {
+        "duration": 5.133301601745188e-05,
+        "outcome": "passed"
+      },
+      "teardown": {
+        "duration": 5.52500132471323e-05,
+        "outcome": "passed"
+      }
+    }
+  ]
+}

@@ -66,7 +66,7 @@ def _write_results(state: AgentState):
     """Writes current AgentState to results.json for dashboard consumption."""
     status_mapped = state.ci_status
     if status_mapped == "SUCCESS":
-        status_mapped = "PASSED"
+        status_mapped = "RESOLVED"
     elif status_mapped == "RUNNING":
         status_mapped = "IN_PROGRESS"
 
@@ -96,22 +96,6 @@ def _write_results(state: AgentState):
             repo_path_str = str(state.repo_path)
             if rel_path.startswith(repo_path_str):
                 rel_path = os.path.relpath(rel_path, repo_path_str)
-            err_val = fix.failure_type.value if hasattr(fix.failure_type, 'value') else str(fix.failure_type).split('.')[-1]
-            line_val = getattr(fix, 'line_number', 'unknown')
-            
-            # Deterministic override for exact match evaluation criteria
-            desc = fix.description
-            if "utils.py" in rel_path:
-                err_val = "LINTING"
-                line_val = 15
-                desc = "remove the import statement"
-            elif "validator.py" in rel_path:
-                err_val = "SYNTAX"
-                line_val = 8
-                desc = "add the colon at the correct position"
-                
-            commit_msg = f"{err_val} error in {rel_path} line {line_val} → Fix: {desc}"
-
             fixes_data.append({
                 "file_path": rel_path,
                 "error_type": str(fix.failure_type),
@@ -119,20 +103,13 @@ def _write_results(state: AgentState):
                 "patched_snippet": fix.patched_code,
                 "tests_passed": fix.validated,
                 "line_number": getattr(fix, 'line_number', None),
-                "commit_message": commit_msg
+                "commit_message": f"[AI-AGENT] Fix {str(fix.failure_type)} in {os.path.basename(rel_path)}"
             })
 
-    timeline_objects = []
-    max_iters = getattr(state, 'max_retries', 5)
+    timeline_strings = []
     if hasattr(state, 'timeline') and state.timeline:
         for event in state.timeline:
-            timeline_objects.append({
-                "description": event.description,
-                "timestamp": event.timestamp,
-                "iteration": event.iteration,
-                "max_retries": max_iters,
-                "event_type": event.event_type,
-            })
+            timeline_strings.append(event.description)
 
     # Compute elapsed time
     start_t = getattr(state, 'start_time', None) or time.time()
@@ -151,7 +128,7 @@ def _write_results(state: AgentState):
         "total_fixes": len(fixes_data),
         "ci_status": status_mapped,
         "fixes": fixes_data,
-        "ci_timeline": timeline_objects,
+        "ci_timeline": timeline_strings,
         "scoring": scoring_data,
         "start_time": start_t,
         "elapsed_seconds": elapsed,

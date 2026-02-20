@@ -295,10 +295,10 @@ class FailureClassifierAgent:
             return []
 
         proactive_failures: List[Failure] = []
-        # Only scan non-test source files
+        # Only scan non-test source files, limit to 1 for speed
         if source_files is None:
             source_files = [f for f in self.state.python_files if f not in self.state.test_files]
-        scan_files = [f for f in source_files if f not in self.state.test_files]
+        scan_files = [f for f in source_files if f not in self.state.test_files][:1]
 
         for fp in scan_files:
             try:

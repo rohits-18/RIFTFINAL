@@ -26,15 +26,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from backend.utils.logger import logger
-from config.settings import settings
-
 from backend.utils.models import AgentState, CITimelineEvent, LanguageMode
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Normalised result (language-agnostic)
 # ─────────────────────────────────────────────────────────────────────────────
-
 
 @dataclass
 class TestRunResult:
@@ -62,20 +59,6 @@ class TestRunnerAgent:
     """
 
     PYTEST_JSON_FILE = ".pytest_report.json"
-
-    def _run_command_wrapper(self, cmd: List[str], env: Dict, cwd: str = None, timeout: int = 120) -> Any:
-        """
-        Executes command either locally via subprocess or inside Docker sandbox.
-        """
-        if settings.USE_DOCKER_SANDBOX:
-            from backend.sandbox.docker_runner import DockerRunner
-            runner = DockerRunner(self.repo_path)
-            return runner.run_command(cmd, timeout=timeout, env=env)
-        else:
-            return subprocess.run(
-                cmd, capture_output=True, text=True,
-                timeout=timeout, cwd=cwd or str(self.repo_path), env=env
-            )
 
     def __init__(self, state: AgentState):
         self.state = state
@@ -130,12 +113,8 @@ class TestRunnerAgent:
 
     def _execute_pytest(self) -> TestRunResult:
         json_report_path = self.PYTEST_JSON_FILE
-        
-        # In Docker, use 'python', locally use sys.executable
-        python_exe = "python" if settings.USE_DOCKER_SANDBOX else sys.executable
-
         cmd = [
-            python_exe, "-m", "pytest",
+            sys.executable, "-m", "pytest",
             "--tb=short", "--no-header", "-q",
             "--json-report",
             f"--json-report-file={json_report_path}",
@@ -148,10 +127,10 @@ class TestRunnerAgent:
 
         t0 = time.time()
         try:
-            logger.info(f"[TestRunnerAgent] Running pytest in {self.repo_path} (Docker={settings.USE_DOCKER_SANDBOX})")
-            
-            proc = self._run_command_wrapper(
-                cmd, env=env, cwd=str(self.repo_path), timeout=120
+            logger.info(f"[TestRunnerAgent] Running pytest in {self.repo_path}")
+            proc = subprocess.run(
+                cmd, capture_output=True, text=True,
+                timeout=120, cwd=str(self.repo_path), env=env,
             )
 
             raw = proc.stdout + "\n" + proc.stderr
@@ -217,9 +196,10 @@ class TestRunnerAgent:
         t0 = time.time()
 
         try:
-            logger.info(f"[TestRunnerAgent] Running {' '.join(cmd_json)} in {self.repo_path} (Docker={settings.USE_DOCKER_SANDBOX})")
-            proc = self._run_command_wrapper(
-                cmd_json, env=env, cwd=str(self.repo_path), timeout=180
+            logger.info(f"[TestRunnerAgent] Running {' '.join(cmd_json)} in {self.repo_path}")
+            proc = subprocess.run(
+                cmd_json, capture_output=True, text=True,
+                timeout=180, cwd=str(self.repo_path), env=env,
             )
 
             raw = proc.stdout + "\n" + proc.stderr
@@ -331,32 +311,23 @@ class TestRunnerAgent:
         Falls back to text parsing if XML not found.
         """
         use_gradle = self.tool.startswith("gradle")
-        
-        # Check for wrappers
-        gradlew = self.repo_path / "gradlew"
-        mvnw = self.repo_path / "mvnw"
-        
-        if settings.USE_DOCKER_SANDBOX:
-            # In Docker, paths are relative to working_dir /repo
-            if use_gradle:
-                 cmd = ["./gradlew" if gradlew.exists() else "gradle", "test", "--info"]
-            else:
-                 cmd = ["./mvnw" if mvnw.exists() else "mvn", "test", "-B", "--no-transfer-progress"]
+        if use_gradle:
+            # Use gradlew wrapper if present
+            gradlew = self.repo_path / "gradlew"
+            cmd = [str(gradlew) if gradlew.exists() else "gradle", "test", "--info"]
         else:
-            if use_gradle:
-                cmd = [str(gradlew) if gradlew.exists() else "gradle", "test", "--info"]
-            else:
-                cmd = [str(mvnw) if mvnw.exists() else "mvn", "test", "-B", "--no-transfer-progress"]
+            mvnw = self.repo_path / "mvnw"
+            cmd = [str(mvnw) if mvnw.exists() else "mvn", "test", "-B", "--no-transfer-progress"]
 
         env = {**os.environ, "JAVA_HOME": os.environ.get("JAVA_HOME", ""),
-               "MAVEN_OPTS": "-Xmx512m", "CI": "true"}
+               "MAVEN_OPTS": "-Xmx512m"}
         t0 = time.time()
 
         try:
-            logger.info(f"[TestRunnerAgent] Running {' '.join(cmd)} in {self.repo_path} (Docker={settings.USE_DOCKER_SANDBOX})")
-            
-            proc = self._run_command_wrapper(
-                cmd, env=env, cwd=str(self.repo_path), timeout=300
+            logger.info(f"[TestRunnerAgent] Running {' '.join(cmd)} in {self.repo_path}")
+            proc = subprocess.run(
+                cmd, capture_output=True, text=True,
+                timeout=300, cwd=str(self.repo_path), env=env,
             )
 
             raw = proc.stdout + "\n" + proc.stderr
@@ -467,22 +438,19 @@ class TestRunnerAgent:
     # ─────────────────────────────────────────
     def run_single_test(self, test_id: str) -> TestRunResult:
         """Run a single test by ID (Python only for now)."""
-        python_exe = "python" if settings.USE_DOCKER_SANDBOX else sys.executable
-        cmd = [python_exe, "-m", "pytest", test_id, "--tb=short", "-q", "--no-header"]
+        cmd = [sys.executable, "-m", "pytest", test_id, "--tb=short", "-q", "--no-header"]
         t0 = time.time()
         try:
-            proc = self._run_command_wrapper(
-                cmd, 
+            proc = subprocess.run(
+                cmd, capture_output=True, text=True,
+                timeout=60, cwd=str(self.repo_path),
                 env={**os.environ, "PYTHONHASHSEED": "42"},
-                cwd=str(self.repo_path),
-                timeout=60
             )
-        except Exception:
+        except subprocess.TimeoutExpired:
             return TestRunResult(exit_code=-1, runner_used="pytest")
-            
         return TestRunResult(
             exit_code=proc.returncode,
-            raw_output=getattr(proc, "stdout", "") + getattr(proc, "stderr", ""),
+            raw_output=proc.stdout + proc.stderr,
             duration_seconds=time.time() - t0,
             runner_used="pytest",
         )

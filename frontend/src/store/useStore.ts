@@ -72,7 +72,7 @@ interface AppState {
     reset: () => void;
 }
 
-const FINAL_STATUSES = ['PASSED', 'RESOLVED', 'FAILED', 'PARTIAL'];
+const FINAL_STATUSES = ['RESOLVED', 'FAILED', 'PARTIAL'];
 const ACTIVE_STATUSES = ['PENDING', 'QUEUED', 'IN_PROGRESS', 'RUNNING'];
 
 export const useStore = create<AppState>()(
@@ -94,19 +94,17 @@ export const useStore = create<AppState>()(
             setTeamName: (name) => {
                 set({ teamName: name, error: null });
                 const { leaderName } = get();
-                const clean = (str: string) => str.trim().toUpperCase().replace(/[^A-Z0-9]/g, '_').replace(/_+/g, '_');
-                const t = clean(name);
-                const l = clean(leaderName);
-                if (t && l) set({ branchName: `${t}_${l}_AI_Fix` });
+                const t = name.trim().toUpperCase().replace(/\s+/g, '_');
+                const l = leaderName.trim().toUpperCase().replace(/\s+/g, '_');
+                if (t && l) set({ branchName: `${t}_${l}_AI_FIX` });
             },
 
             setLeaderName: (name) => {
                 set({ leaderName: name, error: null });
                 const { teamName } = get();
-                const clean = (str: string) => str.trim().toUpperCase().replace(/[^A-Z0-9]/g, '_').replace(/_+/g, '_');
-                const t = clean(teamName);
-                const l = clean(name);
-                if (t && l) set({ branchName: `${t}_${l}_AI_Fix` });
+                const t = teamName.trim().toUpperCase().replace(/\s+/g, '_');
+                const l = name.trim().toUpperCase().replace(/\s+/g, '_');
+                if (t && l) set({ branchName: `${t}_${l}_AI_FIX` });
             },
 
             setBranchName: (name) => set({ branchName: name }),

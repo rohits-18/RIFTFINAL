@@ -4,7 +4,7 @@ import { RefreshCw, CheckCircle2, XCircle, Clock, Loader2, ChevronRight } from '
 
 const statusBadge = (status: string) => {
     switch (status) {
-        case 'PASSED': return 'text-emerald-400 bg-emerald-900/30 border-emerald-700/50';
+        case 'RESOLVED': return 'text-emerald-400 bg-emerald-900/30 border-emerald-700/50';
         case 'FAILED': return 'text-red-400 bg-red-900/30 border-red-700/50';
         case 'IN_PROGRESS': return 'text-blue-400 bg-blue-900/30 border-blue-700/50 animate-pulse';
         case 'PENDING':
@@ -14,7 +14,7 @@ const statusBadge = (status: string) => {
 };
 
 const StatusIcon = ({ status }: { status: string }) => {
-    if (status === 'PASSED') return <CheckCircle2 className="w-3 h-3" />;
+    if (status === 'RESOLVED') return <CheckCircle2 className="w-3 h-3" />;
     if (status === 'FAILED') return <XCircle className="w-3 h-3" />;
     if (status === 'IN_PROGRESS') return <Loader2 className="w-3 h-3 animate-spin" />;
     return <Clock className="w-3 h-3" />;
@@ -39,7 +39,7 @@ const RunHistoryPanel = () => {
 
     return (
         <div className="bg-gradient-to-b from-slate-800 to-slate-800/80 rounded-2xl border border-slate-700/60 overflow-hidden">
-            <div className="px-4 sm:px-5 py-4 border-b border-slate-700/60 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-slate-700/60 flex items-center justify-between">
                 <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-2">
                     🕓 Healing History
                 </h3>
@@ -62,7 +62,7 @@ const RunHistoryPanel = () => {
                             key={run.run_id}
                             id={`run-${run.run_id}`}
                             onClick={() => selectRun(run.run_id)}
-                            className={`w-full text-left px-4 sm:px-5 py-3 hover:bg-slate-700/30 transition-all group flex items-center justify-between gap-3 ${run.run_id === runId ? 'bg-blue-900/10 border-l-2 border-l-blue-500' : ''}`}
+                            className={`w-full text-left px-5 py-3 hover:bg-slate-700/30 transition-all group flex items-center justify-between gap-3 ${run.run_id === runId ? 'bg-blue-900/10 border-l-2 border-l-blue-500' : ''}`}
                         >
                             <div className="min-w-0 flex-1">
                                 <div className="flex items-center gap-2 mb-1">

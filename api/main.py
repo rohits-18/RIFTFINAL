@@ -61,14 +61,11 @@ async def list_runs():
             try:
                 with open(os.path.join(RESULTS_DIR, filename), 'r') as f:
                     data = json.load(f)
-                    status = data.get("ci_status", "UNKNOWN")
-                    if status == "RESOLVED":
-                        status = "PASSED"
                     runs.append({
                         "run_id": data.get("run_id"),
                         "repo_url": data.get("repo_url"),
                         "branch_name": data.get("branch_name"),
-                        "ci_status": status,
+                        "ci_status": data.get("ci_status", "UNKNOWN"),
                         "total_fixes": data.get("total_fixes", 0)
                     })
             except Exception as e:
@@ -118,22 +115,7 @@ async def run_agent(request: RunAgentRequest, background_tasks: BackgroundTasks)
             "total_fixes": 0,
             "ci_status": "PENDING",
             "fixes": [],
-            "ci_timeline": [
-                {
-                    "description": "Mission initialized",
-                    "timestamp": now,
-                    "iteration": 0,
-                    "max_retries": 5,
-                    "event_type": "INIT"
-                },
-                {
-                    "description": "Status: PENDING — spawning orchestrator...",
-                    "timestamp": now,
-                    "iteration": 0,
-                    "max_retries": 5,
-                    "event_type": "INIT"
-                }
-            ],
+            "ci_timeline": ["Mission initialized", "Status: PENDING — spawning orchestrator..."],
             "scoring": {
                 "base_score": 100, "speed_factor": 0, "fix_efficiency": 0,
                 "regression_penalty": 0, "final_ci_score": 0
@@ -177,12 +159,9 @@ async def get_results(run_id: str):
 
         with open(result_file_path, 'r') as f:
             data = json.load(f)
-            if data.get("ci_status") == "RESOLVED":
-                data["ci_status"] = "PASSED"
-                
             # Dynamically compute elapsed time while agent is still running
             import time as _time
-            if data.get("start_time") and data.get("ci_status") not in ("PASSED", "FAILED", "PARTIAL"):
+            if data.get("start_time") and data.get("ci_status") not in ("RESOLVED", "FAILED"):
                 data["elapsed_seconds"] = round(_time.time() - data["start_time"], 1)
             return data
 

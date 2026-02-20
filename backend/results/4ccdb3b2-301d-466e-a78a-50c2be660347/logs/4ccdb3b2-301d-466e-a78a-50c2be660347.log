@@ -1,0 +1,200 @@
+2026-02-19 22:20:21.366 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.utils.logger:setup_logger:41 — Logger initialized for run_id=4ccdb3b2-301d-466e-a78a-50c2be660347
+2026-02-19 22:20:21.367 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.orchestrator.graph:run_healing_pipeline:184 — ======================================================================
+2026-02-19 22:20:21.367 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.orchestrator.graph:run_healing_pipeline:185 — 🚀 CI/CD Healing Intelligence Core — STARTING
+2026-02-19 22:20:21.367 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.orchestrator.graph:run_healing_pipeline:186 — ======================================================================
+2026-02-19 22:20:21.381 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.cicd_feedback_agent:run:68 — [CICDFeedbackAgent] No CI logs provided, skipping
+2026-02-19 22:20:21.382 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.repo_analyzer_agent:run:45 — [RepoAnalyzerAgent] Scanning repo: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347
+2026-02-19 22:20:21.383 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.repo_analyzer_agent:run:73 — [RepoAnalyzerAgent] Done in 0.00s — 1 py, 0 tests, 0 configs
+2026-02-19 22:20:21.384 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.test_runner_agent:run:59 — [TestRunnerAgent] Starting test execution...
+2026-02-19 22:20:21.384 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.test_runner_agent:_execute_pytest:113 — [TestRunnerAgent] Running pytest in /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347
+2026-02-19 22:20:22.158 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.test_runner_agent:run:82 — [TestRunnerAgent] Done in 0.77s | exit=5 pass=0 fail=0
+2026-02-19 22:20:22.159 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.failure_classifier_agent:run:99 — [FailureClassifierAgent] Classifying failures...
+2026-02-19 22:20:22.161 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.failure_classifier_agent:run:146 — [FailureClassifierAgent] 20 failures classified in 0.00s
+2026-02-19 22:20:22.162 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:run:56 — [RootCauseAgent] Analyzing 20 failures...
+2026-02-19 22:20:22.604 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.utils.llm_client:__init__:68 — [LLMClient] Using Google Gemini — model=gemini-2.0-flash (FREE tier)
+2026-02-19 22:20:23.146 | ERROR    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.utils.llm_client:complete:92 — [GeminiClient] API error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 36.867762783s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 36
+}
+]
+2026-02-19 22:20:23.146 | WARNING  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_with_llm:145 — [RootCauseAgent] LLM failed for 4bbd0aa6: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 36.867762783s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 36
+}
+] — falling back to static
+2026-02-19 22:20:23.147 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:6
+2026-02-19 22:20:23.147 | WARNING  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:run:86 — [RootCauseAgent] LLM rate-limited — falling back to static for all remaining
+2026-02-19 22:20:23.147 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:6
+2026-02-19 22:20:23.147 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:15
+2026-02-19 22:20:23.147 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:25
+2026-02-19 22:20:23.147 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:29
+2026-02-19 22:20:23.147 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:48
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:48
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:48
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:11
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:12
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:12
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:13
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:15
+2026-02-19 22:20:23.148 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:27
+2026-02-19 22:20:23.149 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:16
+2026-02-19 22:20:23.149 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:16
+2026-02-19 22:20:23.149 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:29
+2026-02-19 22:20:23.149 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:44
+2026-02-19 22:20:23.149 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:27
+2026-02-19 22:20:23.149 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:48
+2026-02-19 22:20:23.149 | DEBUG    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:_analyze_static:186 — [RootCauseAgent] Static root cause: /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347/codemine.py:33
+2026-02-19 22:20:23.149 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.root_cause_agent:run:98 — [RootCauseAgent] Done in 0.99s
+2026-02-19 22:20:23.151 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.patch_generator_agent:run:101 — [PatchGeneratorAgent] Generating patches for 20 failures...
+2026-02-19 22:20:23.281 | ERROR    | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.utils.llm_client:complete:92 — [GeminiClient] API error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 36.667645721s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 36
+}
+]
+2026-02-19 22:20:23.281 | WARNING  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.patch_generator_agent:_generate_patch:240 — [PatchGeneratorAgent] LLM unavailable (rate/quota) — switching permanently to rule-based fallback
+2026-02-19 22:20:23.282 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.patch_generator_agent:_fallback_patch:334 — [PatchGeneratorAgent] ⚙️  Fallback rule patch applied to codemine.py
+2026-02-19 22:20:23.282 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.patch_generator_agent:run:130 — [PatchGeneratorAgent] 1 patches generated in 0.13s
+2026-02-19 22:20:23.283 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.validation_agent:run:47 — [ValidationAgent] Validating 1 patches...
+2026-02-19 22:20:23.283 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.test_runner_agent:_execute_pytest:113 — [TestRunnerAgent] Running pytest in /Users/harshshinde/Movies/CapCut/untitled folder/CodeReborn/backend/workspace/4ccdb3b2-301d-466e-a78a-50c2be660347
+2026-02-19 22:20:23.817 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.validation_agent:_validate_patch:104 — [ValidationAgent] No test suite — accepting patch if syntax clean
+2026-02-19 22:20:23.817 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.validation_agent:run:60 — [ValidationAgent] ✅ Patch b45d9ad6 ACCEPTED — fixed 1 tests
+2026-02-19 22:20:23.817 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.validation_agent:run:87 — [ValidationAgent] Done in 0.53s — 1/1 patches accepted
+2026-02-19 22:20:23.818 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.commit_optimizer_agent:run:42 — [CommitOptimizerAgent] Committing 1 fixes...
+2026-02-19 22:20:23.838 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.commit_optimizer_agent:_ensure_branch:91 — [CommitOptimizerAgent] Created branch: ROHIT_RIFT2_AI_FIX
+2026-02-19 22:20:23.867 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.commit_optimizer_agent:_group_and_commit:145 — [CommitOptimizerAgent] Committed 70923fc5 — FailureType.LOGIC (1 files)
+2026-02-19 22:20:23.877 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.commit_optimizer_agent:_push_to_remote:170 — [CommitOptimizerAgent] Pushing branch ROHIT_RIFT2_AI_FIX to origin...
+2026-02-19 22:20:25.082 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.commit_optimizer_agent:_push_to_remote:178 — [CommitOptimizerAgent] Successfully pushed to https://github.com/rohits-18/RIFT2.git
+2026-02-19 22:20:25.082 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.commit_optimizer_agent:run:73 — [CommitOptimizerAgent] 1 commits created in 1.26s
+2026-02-19 22:20:25.083 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.orchestrator.graph:should_continue:87 — [Orchestrator] No test suite + 1 fix(es) applied — declaring RESOLVED ✅
+2026-02-19 22:20:25.084 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.scoring_agent:run:39 — [ScoringAgent] Computing final score...
+2026-02-19 22:20:25.084 | SUCCESS  | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.agents.scoring_agent:run:66 — [ScoringAgent] Score=115.00 | fixes=1 | efficiency=0.05 | regressions_penalty=0.0
+2026-02-19 22:20:25.085 | INFO     | run=4ccdb3b2-301d-466e-a78a-50c2be660347 | backend.orchestrator.graph:run_healing_pipeline:223 — 🏁 Pipeline complete. Status: PARTIAL

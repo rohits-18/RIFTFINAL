@@ -24,11 +24,11 @@ const InputPanel = () => {
         runAgent();
     };
 
-    const isActive = !!(currentResult && !['PASSED', 'FAILED'].includes(currentResult.ci_status));
+    const isActive = !!(currentResult && !['RESOLVED', 'FAILED'].includes(currentResult.ci_status));
 
     return (
-        <div className="bg-gradient-to-b from-slate-800 to-slate-800/80 p-4 sm:p-6 rounded-2xl shadow-2xl border border-slate-700/60">
-            <h2 className="text-sm sm:text-base font-black text-slate-100 mb-4 sm:mb-5 flex items-center gap-2 uppercase tracking-widest">
+        <div className="bg-gradient-to-b from-slate-800 to-slate-800/80 p-6 rounded-2xl shadow-2xl border border-slate-700/60">
+            <h2 className="text-base font-black text-slate-100 mb-5 flex items-center gap-2 uppercase tracking-widest">
                 🚀 Mission Control
             </h2>
 
@@ -50,7 +50,7 @@ const InputPanel = () => {
                 </div>
 
                 {/* Team + Leader */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                     <div>
                         <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center gap-1.5">
                             <Users className="w-3 h-3" /> Team Name
@@ -120,7 +120,7 @@ const InputPanel = () => {
                     ) : (
                         <>
                             <Play className="w-4 h-4" />
-                            Run Agent
+                            Run Healing Agent
                         </>
                     )}
                 </button>

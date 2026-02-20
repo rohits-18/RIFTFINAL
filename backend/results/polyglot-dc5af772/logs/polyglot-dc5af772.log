@@ -1,0 +1,113 @@
+2026-02-19 23:25:40.584 | INFO     | run=polyglot-dc5af772 | backend.utils.logger:setup_logger:41 — Logger initialized for run_id=polyglot-dc5af772
+2026-02-19 23:25:40.585 | INFO     | run=polyglot-dc5af772 | backend.agents.repo_analyzer_agent:run:84 — [RepoAnalyzerAgent] Scanning repo: /tmp/cicd_workspace/polyglot-dc5af772/broken-node-app
+2026-02-19 23:25:40.586 | INFO     | run=polyglot-dc5af772 | backend.agents.repo_analyzer_agent:run:90 — [RepoAnalyzerAgent] Detected language=LanguageMode.NODE_JS, test_tool=npm test
+2026-02-19 23:25:40.586 | SUCCESS  | run=polyglot-dc5af772 | backend.agents.repo_analyzer_agent:run:130 — [RepoAnalyzerAgent] Done in 0.00s — Node.js/TS: 2 src, 0 tests, 1 configs
+2026-02-19 23:25:40.587 | INFO     | run=polyglot-dc5af772 | backend.agents.test_runner_agent:run:72 — [TestRunnerAgent] Running tests — language=LanguageMode.NODE_JS, tool=npm test
+2026-02-19 23:25:40.587 | INFO     | run=polyglot-dc5af772 | backend.agents.test_runner_agent:_execute_node:199 — [TestRunnerAgent] Running npm test -- --json --outputFile=/tmp/cicd_workspace/polyglot-dc5af772/broken-node-app/.jest_results.json --forceExit --passWithNoTests in /tmp/cicd_workspace/polyglot-dc5af772/broken-node-app
+2026-02-19 23:25:40.972 | INFO     | run=polyglot-dc5af772 | backend.agents.test_runner_agent:run:104 — [TestRunnerAgent] Done in 0.38s | exit=1 pass=1 fail=1
+2026-02-19 23:25:40.972 | INFO     | run=polyglot-dc5af772 | backend.agents.failure_classifier_agent:run:165 — [FailureClassifierAgent] Classifying failures...
+2026-02-19 23:25:40.972 | INFO     | run=polyglot-dc5af772 | backend.agents.failure_classifier_agent:run:194 — [FailureClassifierAgent] Running proactive LLM bug scan...
+2026-02-19 23:25:41.351 | INFO     | run=polyglot-dc5af772 | backend.utils.llm_client:__init__:68 — [LLMClient] Using Google Gemini — model=gemini-2.0-flash (FREE tier)
+2026-02-19 23:25:41.999 | ERROR    | run=polyglot-dc5af772 | backend.utils.llm_client:complete:92 — [GeminiClient] API error: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 18.055860695s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 18
+}
+]
+2026-02-19 23:25:41.999 | DEBUG    | run=polyglot-dc5af772 | backend.agents.failure_classifier_agent:_proactive_llm_scan:348 — [FailureClassifierAgent] Proactive scan failed for /tmp/cicd_workspace/polyglot-dc5af772/broken-node-app/index.js: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 18.055860695s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 18
+}
+]
+2026-02-19 23:25:41.999 | SUCCESS  | run=polyglot-dc5af772 | backend.agents.failure_classifier_agent:run:215 — [FailureClassifierAgent] 0 failures classified in 1.03s
+2026-02-19 23:25:42.000 | SUCCESS  | run=polyglot-dc5af772 | __main__:apply_polyglot_patches:54 — [DEMO] Applied patch to index.js
+2026-02-19 23:25:42.000 | INFO     | run=polyglot-dc5af772 | backend.agents.test_runner_agent:run:72 — [TestRunnerAgent] Running tests — language=LanguageMode.NODE_JS, tool=npm test
+2026-02-19 23:25:42.000 | INFO     | run=polyglot-dc5af772 | backend.agents.test_runner_agent:_execute_node:199 — [TestRunnerAgent] Running npm test -- --json --outputFile=/tmp/cicd_workspace/polyglot-dc5af772/broken-node-app/.jest_results.json --forceExit --passWithNoTests in /tmp/cicd_workspace/polyglot-dc5af772/broken-node-app
+2026-02-19 23:25:42.147 | INFO     | run=polyglot-dc5af772 | backend.agents.test_runner_agent:run:104 — [TestRunnerAgent] Done in 0.15s | exit=0 pass=2 fail=0
+2026-02-19 23:25:42.147 | INFO     | run=polyglot-dc5af772 | backend.agents.scoring_agent:run:39 — [ScoringAgent] Computing final score...
+2026-02-19 23:25:42.147 | SUCCESS  | run=polyglot-dc5af772 | backend.agents.scoring_agent:run:71 — [ScoringAgent] Score=135.00 | fixes=1 | efficiency=0.00 | regressions_penalty=0.0

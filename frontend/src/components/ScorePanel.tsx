@@ -17,7 +17,7 @@ const ScorePanel = () => {
     // Live timer while run is in progress
     useEffect(() => {
         if (!currentResult) return;
-        const isFinal = ['PASSED', 'FAILED', 'PARTIAL'].includes(currentResult.ci_status);
+        const isFinal = ['RESOLVED', 'FAILED', 'PARTIAL'].includes(currentResult.ci_status);
         if (timerRef.current) clearInterval(timerRef.current);
         if (!isFinal && currentResult.start_time) {
             const tick = () => setElapsedLive(Math.round(Date.now() / 1000 - currentResult.start_time!));
@@ -32,8 +32,8 @@ const ScorePanel = () => {
     if (!currentResult) return null;
 
     const { scoring, ci_status, total_fixes, total_failures, repo_url, branch_name, team_name, leader_name } = currentResult;
-    const isFinal = ['PASSED', 'FAILED', 'PARTIAL'].includes(ci_status);
-    const isResolved = ci_status === 'PASSED';
+    const isFinal = ['RESOLVED', 'FAILED', 'PARTIAL'].includes(ci_status);
+    const isResolved = ci_status === 'RESOLVED';
     const isPartial = ci_status === 'PARTIAL';
     const isPending = ['PENDING', 'QUEUED'].includes(ci_status);
     const isRunning = ci_status === 'IN_PROGRESS' || ci_status === 'RUNNING';
@@ -42,7 +42,7 @@ const ScorePanel = () => {
     const scoreMax = 120;
     const baseBar = Math.min(100, (scoring.base_score / scoreMax) * 100);
     const speedBar = Math.min(100, ((scoring.speed_factor || 0) / 20) * 100);
-    const penaltyBar = Math.min(100, (((Math.abs(scoring.fix_efficiency || 0) || scoring.regression_penalty) || 0) / 20) * 100);
+    const penaltyBar = Math.min(100, ((scoring.regression_penalty || 0) / 20) * 100);
     const finalBar = Math.min(100, (scoring.final_ci_score / scoreMax) * 100);
 
     const statusColor = isResolved
@@ -58,8 +58,8 @@ const ScorePanel = () => {
     return (
         <div className="bg-gradient-to-br from-slate-800 to-slate-800/80 rounded-2xl border border-slate-700/60 overflow-hidden shadow-2xl">
             {/* Header */}
-            <div className="px-4 sm:px-6 py-4 border-b border-slate-700/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="min-w-0 w-full sm:flex-1">
+            <div className="px-6 py-4 border-b border-slate-700/50 flex items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
                     <h2 className="text-sm font-black uppercase tracking-widest text-slate-300 flex items-center gap-2 mb-1">
                         📊 Analysis Report
                     </h2>
@@ -74,7 +74,7 @@ const ScorePanel = () => {
             </div>
 
             {/* Run Summary Card (requirement #2) */}
-            <div className="px-4 sm:px-6 py-4 grid grid-cols-2 md:grid-cols-4 gap-3 border-b border-slate-700/50">
+            <div className="px-6 py-4 grid grid-cols-2 md:grid-cols-4 gap-3 border-b border-slate-700/50">
                 <div className="bg-slate-900/60 rounded-xl p-3 border border-slate-700/40 flex flex-col gap-1">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1"><Users className="w-3 h-3" /> Team</span>
                     <span className="text-sm font-black text-slate-200 truncate">{team_name || '—'}</span>
@@ -96,7 +96,7 @@ const ScorePanel = () => {
             </div>
 
             {/* Metrics row */}
-            <div className="px-4 sm:px-6 py-4 grid grid-cols-3 gap-2 sm:gap-4 border-b border-slate-700/50">
+            <div className="px-6 py-4 grid grid-cols-3 gap-4 border-b border-slate-700/50">
                 <div className="text-center">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Final Score</p>
                     <p className="text-4xl font-black text-blue-400 leading-none">{scoring.final_ci_score.toFixed(1)}</p>
@@ -112,7 +112,7 @@ const ScorePanel = () => {
             </div>
 
             {/* Score Breakdown + bars (requirement #3) */}
-            <div className="px-4 sm:px-6 py-4 space-y-3">
+            <div className="px-6 py-4 space-y-3">
                 <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 mb-3">
                     <BarChart3 className="w-3.5 h-3.5" /> Score Breakdown
                 </h3>
@@ -120,7 +120,7 @@ const ScorePanel = () => {
                 <div className="space-y-2.5">
                     <ScoreBar label="Base Score" value={scoring.base_score} bar={baseBar} color="from-slate-400 to-slate-300" textColor="text-slate-300" prefix="" />
                     <ScoreBar label="Speed Bonus" value={scoring.speed_factor} bar={speedBar} color="from-emerald-600 to-emerald-400" textColor="text-emerald-300" prefix="+" />
-                    <ScoreBar label="Efficiency Penalty" value={Math.abs(scoring.fix_efficiency || 0) || scoring.regression_penalty} bar={penaltyBar} color="from-red-700 to-red-500" textColor="text-red-300" prefix="-" />
+                    <ScoreBar label="Regression Penalty" value={scoring.regression_penalty} bar={penaltyBar} color="from-red-700 to-red-500" textColor="text-red-300" prefix="-" />
                     <div className="h-px bg-slate-700/60 my-1" />
                     <div className="flex items-center justify-between">
                         <span className="text-[11px] font-black uppercase tracking-widest text-slate-300">Final CI Score</span>

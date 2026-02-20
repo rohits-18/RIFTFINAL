@@ -56,10 +56,8 @@ class Settings(BaseSettings):
     PATCH_MAX_LINES: int = Field(default=50)
 
     # ── Sandbox ───────────────────────────────────────────────────────────────
-    USE_DOCKER_SANDBOX: bool = Field(default=True, description="Run code in Docker container")
-    SANDBOX_DOCKER_IMAGE: str = Field(default="autonomous-healing-sandbox:latest")
-    SANDBOX_MEMORY_LIMIT: str = Field(default="1024m")
-    SANDBOX_CPU_QUOTA: int = Field(default=100000)
+    SANDBOX_DOCKER_IMAGE: str = Field(default="python:3.11-slim")
+    SANDBOX_MEMORY_LIMIT: str = Field(default="512m")
     SANDBOX_CPU_QUOTA: int = Field(default=50000)
 
     # ── Paths ─────────────────────────────────────────────────────────────────

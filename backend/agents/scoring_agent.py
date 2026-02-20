@@ -80,31 +80,42 @@ class ScoringAgent:
     def _compute_score(self) -> Scoring:
         total_failures = len(self.state.failures)
         actual_fixes = len([f for f in self.state.fixes if f.validated])
+        total_regressions = sum(
+            r.tests_regressed
+            for r in self.state.validation_results
+        )
 
         # Base score
-        base = 100.0
+        base = settings.SCORE_BASE
 
-        # Speed bonus: +10 if < 5 minutes (300 seconds)
-        start_t = getattr(self.state, "start_time", None)
-        elapsed_seconds = (time.time() - start_t) if start_t else 0.0
-        speed_bonus = 10.0 if elapsed_seconds < 300.0 else 0.0
+        # Fix efficiency: ratio of fixes to failures (0–1)
+        fix_efficiency = (actual_fixes / total_failures) if total_failures > 0 else 0.0
+        fix_score = actual_fixes * settings.SCORE_PER_FIX
 
-        # Efficiency penalty: -2 per commit over 20
-        # Given CommitOptimizer maps 1 fix = 1 commit for these rules, we use len(fixes).
-        commits_made = len(self.state.fixes)
-        efficiency_penalty = float(max(0, commits_made - 20) * 2)
+        # Speed factor: bonus for completing in fewer iterations
+        max_iters = self.state.max_retries
+        iters_used = self.state.iteration
+        speed_factor = max(0.0, (max_iters - iters_used) / max_iters)
+        speed_bonus = speed_factor * settings.SCORE_SPEED_FACTOR * 10
 
-        # Final score
-        total = base + speed_bonus - efficiency_penalty
+        # Regression penalty
+        regression_penalty = total_regressions * settings.SCORE_REGRESSION_PENALTY
+
+        # CI success bonus
+        ci_success_score = 20.0 if self.state.ci_status == CIStatus.SUCCESS else 0.0
+
+        # Total (clamped to 0–100 range but allow overage for exceptional runs)
+        total = base + fix_score + speed_bonus - regression_penalty + ci_success_score
+        total = max(0.0, total)  # never negative
 
         return Scoring(
             base_score=base,
-            speed_factor=speed_bonus,
-            fix_efficiency=-efficiency_penalty,  # mapped for transparency on dashboard
-            regression_penalty=0.0,
-            ci_success_score=0.0,
+            speed_factor=round(speed_factor, 4),
+            fix_efficiency=round(fix_efficiency, 4),
+            regression_penalty=round(regression_penalty, 2),
+            ci_success_score=ci_success_score,
             total_score=round(total, 2),
-            iterations_used=self.state.iteration,
+            iterations_used=iters_used,
             total_possible_fixes=total_failures,
             actual_fixes=actual_fixes,
             computation_method="deterministic",
