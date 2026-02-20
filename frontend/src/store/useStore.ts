@@ -197,6 +197,11 @@ export const useStore = create<AppState>()(
             },
 
             stopPolling: () => {
+                set({ isPolling: false });
+                if ((window as any).pollTimeout) {
+                    clearTimeout((window as any).pollTimeout);
+                    (window as any).pollTimeout = null;
+                }
                 const { pollingIntervalId } = get();
                 if (pollingIntervalId) {
                     clearInterval(pollingIntervalId);

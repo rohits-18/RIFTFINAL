@@ -106,7 +106,7 @@ async def root():
 
     return {
         "status": status_msg,
-        "api_version": "1.11.0 PRO LIVE (Final Hardening)",
+        "api_version": "1.14.0 PRO LIVE (Cloud-First Engine)",
         "git_available": bool(git_path),
         "git_executable": os.environ.get("GIT_PYTHON_GIT_EXECUTABLE"),
         "results_dir": str(RESULTS_DIR),
